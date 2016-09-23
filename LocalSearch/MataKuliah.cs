@@ -41,6 +41,10 @@ namespace LocalSearch
         public int getHariSol() { return hariSol; }
         public int getSks() { return sks; }
 
+        public void setRuanganSol(String s) { ruanganSol = s; }
+        public void setJamSol(int i) { jamSol = i; }
+        public void setHariSol(int i) { hariSol = i; }
+
         private string namaMatKul;
 		private string ruanganDom;
 		private string ruanganSol;

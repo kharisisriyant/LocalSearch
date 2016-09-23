@@ -31,7 +31,7 @@ namespace LocalSearch
 				i++;
 				jumlahRuangan++;
 			}
-            banyakRuangan = jumlahRuangan - 1;
+            banyakRuangan = jumlahRuangan;
 
 			while(lines[i] !="Jadwal"){
 				i++;
@@ -45,7 +45,7 @@ namespace LocalSearch
 				i++;
 				jumlahJadwal++;
 			}
-            banyakJadwal = jumlahJadwal - 1;
+            banyakJadwal = jumlahJadwal;
 
 
 
