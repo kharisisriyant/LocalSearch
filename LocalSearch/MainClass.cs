@@ -8,11 +8,13 @@ namespace LocalSearch
 		{
 		}
 
-        void GeneticAlgorithm(FileParser fp){
-            string[] jadwal = fp.getJadwal();
-            string[] ruangan = fp.getRuangan();
+        void GeneticAlgorithm(string[] jadwal, string[] ruangan, int banyakJadwal){
+            Boolean[,,] conditionMatrix = new Boolean[5, 24, banyakJadwal];
+            string[] sample = new string[8];
 
-            Boolean[,,] conditionMatrix = new Boolean[5, 24, jadwal.Length];
+            for (int i = 0; i < 8; i++) {
+                
+            }
         }
 
 		static void Main(string[] args){
@@ -36,7 +38,7 @@ namespace LocalSearch
 				listR.Add (r);
 			}
 
-            Console.Read();
+            //Console.Read();
 		}
 	}
 }
