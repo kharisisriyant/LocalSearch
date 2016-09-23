@@ -31,7 +31,17 @@ namespace LocalSearch
 			Console.WriteLine ("{0}", hariDom[0]);
 		}
 
-		private string namaMatKul;
+        public string getNamaMatKul() { return namaMatKul; }
+        public string getRuanganDom() { return ruanganDom; }
+        public string getRuanganSol() { return ruanganSol; }
+        public int getJamDomAwal() { return jamDom[0]; }
+        public int getJamDomAkhir() { return jamDom[1]; }
+        public int getJamSol() { return jamSol; }
+        public int[] getHariDom() { return hariDom; }
+        public int getHariSol() { return hariSol; }
+        public int getSks() { return sks; }
+
+        private string namaMatKul;
 		private string ruanganDom;
 		private string ruanganSol;
 		private int[] jamDom;
@@ -39,9 +49,11 @@ namespace LocalSearch
 		private int[] hariDom;
 		private int hariSol;
 		private int sks;
+        
 
-		//notes: jam sama hari mau string atau mau int???
-	}
+
+        //notes: jam sama hari mau string atau mau int???
+    }
 }
 
 /*

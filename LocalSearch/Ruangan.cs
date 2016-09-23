@@ -30,10 +30,29 @@ namespace LocalSearch
 
 		}
 
+        public string getNamaRuangan()
+        {
+            return namaRuangan;
+        }
+
+        public int getjamMulai()
+        {
+            return jamAvailable[0];
+        }
+
+        public int getjamAkhir()
+        {
+            return jamAvailable[1];
+        }
+
+        public int[] getHariAvailable()
+        {
+            return hariAvailable;
+        }
+
 		private string namaRuangan;
 		private int[] jamAvailable; //jamAvailable[0] awal jamAvailable[1] akhir 
 		private int[] hariAvailable;
-
 
 		//notes: jam sama hari mau string atau mau int???
 	}
