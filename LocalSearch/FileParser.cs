@@ -6,9 +6,10 @@ namespace LocalSearch
 	{
 		public FileParser ()
 		{
-			//Baca file
-			string[] lines = System.IO.File.ReadAllLines(@"D:\IF\Semester 5\AI\Spesifikasi\Testcase.txt");
-			int i = 0;
+            //Baca file
+            //string[] lines = System.IO.File.ReadAllLines(@"D:\IF\Semester 5\AI\Spesifikasi\Testcase.txt");
+            string[] lines = System.IO.File.ReadAllLines(@"G:\Testcase.txt");
+            int i = 0;
 			while(i < lines.Length){
 				Console.WriteLine (lines [i]);
 				i++;
@@ -29,6 +30,7 @@ namespace LocalSearch
 				i++;
 				jumlahRuangan++;
 			}
+            banyakRuangan = jumlahRuangan - 1;
 
 			while(lines[i] !="Jadwal"){
 				i++;
@@ -42,6 +44,7 @@ namespace LocalSearch
 				i++;
 				jumlahJadwal++;
 			}
+            banyakJadwal = jumlahJadwal - 1;
 
 
 
@@ -65,8 +68,17 @@ namespace LocalSearch
 			return listRuangan;
 		}
 
+        public int getBanyakJadwal() {
+            return banyakJadwal;
+        }
+        public int getBanyakRuangan() {
+            return banyakRuangan;
+        }
+
 		private string[] listRuangan;
 		private string[] listJadwal;
+        private int banyakRuangan;
+        private int banyakJadwal;
 	}
 }
 
