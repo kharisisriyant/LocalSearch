@@ -47,14 +47,14 @@ namespace LocalSearch
         public int hitungKonflik(List<MataKuliah> LM)
         {
             int konflik = 0;
-            for(int i = 0; i < LM.Count; ++i)
+            for(int i = 0; i < LM.Count(); ++i)
             {
-                foreach (MataKuliah m in LM)
+                for(int j=i+1;j<LM.Count();++j)
                 {
-                    if (LM[i].getNamaMatKul() != m.getNamaMatKul())
+                    if (LM[i].getNamaMatKul() != LM[j].getNamaMatKul())
                     {
-                        if((LM[i].getRuanganSol() == m.getRuanganSol()) && (LM[i].getHariSol() == m.getHariSol() /*hasil sol masih bingung */ && 
-                            (LM[i].getJamSol() +LM[i].getSks() <= m.getJamSol() || m.getJamSol() + m.getSks() <= LM[i].getJamSol())))
+                        if((LM[i].getRuanganSol() == LM[j].getRuanganSol()) && (LM[i].getHariSol() == LM[j].getHariSol() && 
+                            (LM[i].getJamSol() +LM[i].getSks() <= LM[j].getJamSol() || LM[j].getJamSol() +LM[j].getSks() <= LM[i].getJamSol())))
                         {
                             ++konflik;
                         }
