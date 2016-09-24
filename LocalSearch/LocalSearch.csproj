@@ -32,13 +32,13 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Checker.cs" />
+    <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="MataKuliah.cs" />
     <Compile Include="FileParser.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="RandomRestart.cs" />
     <Compile Include="Ruangan.cs" />
-    <Compile Include="SimulatedAnnealing.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
