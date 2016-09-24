@@ -10,12 +10,14 @@ namespace LocalSearch
     {
         public void randomRestart(List<MataKuliah> LMK)
         {
-            MainClass mc = new MainClass();
-            Checker ch = new Checker();
-            while(ch.hitungKonflik(LMK) !=0 )
+            int step = 0;
+           /* while (step != 20000)
             {
-
-            }
+                Checker ch = new Checker();
+                //while (ch.hitungKonflik(LMK) != 0)
+                {
+                }
+            }*/
         }
     }
 

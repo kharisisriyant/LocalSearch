@@ -46,7 +46,8 @@ namespace LocalSearch
             Console.WriteLine(ch.checkAvail(listMK[0], listR));
             */
             Checker ch = new Checker();
-            Console.WriteLine("Konflik ada " + ch.hitungKonflik(listMK));
+            ch.hitungKonflik(listMK);
+            Console.WriteLine("Konflik ada " + ch.getJumlahKonflik());
             Console.Read();
 		}
 	}

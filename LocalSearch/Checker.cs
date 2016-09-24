@@ -8,9 +8,9 @@ namespace LocalSearch
 {
     class Checker
     {
-        public Checker(List<MataKuliah> LM)
+        public Checker()
         {
-            arrMKKonflik = new int[LM.Count];
+            
         }
 
         public Boolean checkAvail(MataKuliah MK, List<Ruangan> LR)
@@ -53,6 +53,7 @@ namespace LocalSearch
 
         public void hitungKonflik(List<MataKuliah> LM)
         {
+            arrMKKonflik = new int[LM.Count];
             int konflik = 0;
             for (int i = 0; i < LM.Count(); ++i)
             {
@@ -70,9 +71,19 @@ namespace LocalSearch
             jumlahKonflik = konflik;
         }
 
-        static int[] arrMKKonflik; //array jumlah konflik masing2 matkul
+        public int getJumlahKonflik()
+        {
+            return jumlahKonflik;
+        }
 
-        static int jumlahKonflik = 0; //jumlah total konflik
+        public int[] getArrMKKonflik()
+        {
+            return arrMKKonflik;
+        }
+
+        private int[] arrMKKonflik; //array jumlah konflik masing2 matkul
+
+        private int jumlahKonflik ; //jumlah total konflik
         
     }
         
