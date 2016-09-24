@@ -63,5 +63,6 @@ namespace LocalSearch
             }
             return konflik;
         }
-    }
+
+        }
 }
