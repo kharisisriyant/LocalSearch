@@ -36,8 +36,11 @@ namespace LocalSearch
 				listR.Add (r);
 			}
 
-            Initializer init = new Initializer();
-            init.Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            RandomRestart rr = new RandomRestart();
+            rr.randomRestart(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+
+            //Initializer init = new Initializer();
+            //init.Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
             /* test checker
             Checker ch = new Checker();
             listMK[0].setHariSol(3);
@@ -47,17 +50,9 @@ namespace LocalSearch
             */
             Checker ch = new Checker();
             ch.hitungKonflik(listMK);
-            Console.WriteLine("Konflik ada " + ch.getJumlahKonflik());
+            Console.WriteLine("Konflik ada " + ch.getJumlahKonflik()); 
             Console.Read();
 		}
 	}
 }
 
-
-/*Console.WriteLine ("\n\n");
-			MataKuliah mk1 = new MataKuliah (jadwal [1]);
-			Console.WriteLine ("\n\n");
-			MataKuliah mk2 = new MataKuliah (jadwal [2]);
-			Console.WriteLine ("\n\n");
-			Console.WriteLine ("Ruangan");
-*/
