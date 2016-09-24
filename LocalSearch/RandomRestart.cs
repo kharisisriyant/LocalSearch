@@ -8,6 +8,8 @@ namespace LocalSearch
 {
     class RandomRestart
     {
+        private int thresholdMax = 100;
+        private int thresholdRestart = 10;
         public void randomRestart(List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan)
         {
             int step = 0;
@@ -20,7 +22,7 @@ namespace LocalSearch
             List<MataKuliah> HLMK = LMK; // history awal saat inisialisasi awal 
             Checker ch2 = new Checker();
 
-            while (step != 100 && ch.getJumlahKonflik() != 0)
+            while (step != thresholdMax && ch.getJumlahKonflik() != 0)
             {
                 init.Initialize(LMK, LR, banyakjadwal, banyakruangan);
                 ch.hitungKonflik(LMK);
@@ -30,7 +32,7 @@ namespace LocalSearch
                 {
                     HLMK = LMK;
                 }
-                while (ch.getJumlahKonflik() != 0 && (step % 10 != 0))
+                while (ch.getJumlahKonflik() != 0 && (step % thresholdRestart != 0))
                 {
                     konfliklama = ch.getJumlahKonflik();
                     int i = ch.getIndexMaxMKKonflik();
