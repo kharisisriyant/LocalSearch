@@ -32,7 +32,7 @@ namespace LocalSearch
 			}
 
             RandomRestart rr = new RandomRestart();
-            rr.randomRestart(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Initializer init = new Initializer();
             //init.Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());

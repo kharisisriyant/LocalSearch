@@ -31,10 +31,23 @@ namespace LocalSearch
 			Console.WriteLine ("{0}", hariDom[0]);
 		}
 
-        public MataKuliah()
+        //Copy Constructor
+        public MataKuliah(MataKuliah n)
         {
+            setNamaMatKul(n.getNamaMatKul());
+            setRuanganDom(n.getRuanganDom());
+            setRuanganSol(n.getRuanganSol());
+            jamDom = new int[2];
+            setJamDomAwal(n.getJamDomAwal());
+            setJamDomAkhir(n.getJamDomAkhir());
+            setJamSol(n.getJamSol());
+            hariDom = new int[n.getHariDom().Length];
+            setHariDom(n.getHariDom());
+            setHariSol(n.getHariSol());
+            setSks(n.getSks());
         }
 
+        //getter
         public string getNamaMatKul() { return namaMatKul; }
         public string getRuanganDom() { return ruanganDom; }
         public string getRuanganSol() { return ruanganSol; }
@@ -45,9 +58,16 @@ namespace LocalSearch
         public int getHariSol() { return hariSol; }
         public int getSks() { return sks; }
 
-        public void setRuanganSol(String s) { ruanganSol = s; }
+        //setter
+        public void setNamaMatKul(string s) { namaMatKul = s; }
+        public void setRuanganDom(string s) { ruanganDom = s; }
+        public void setRuanganSol(string s) { ruanganSol = s; }
         public void setJamSol(int i) { jamSol = i; }
         public void setHariSol(int i) { hariSol = i; }
+        public void setJamDomAwal(int jD) { jamDom[0] = jD; }
+        public void setJamDomAkhir(int jD) { jamDom[1] = jD; }
+        public void setSks(int s) { sks = s; }
+        public void setHariDom(int[] h) { hariDom = new int[h.Length]; for(int i = 0;i<h.Length; ++i) { hariDom[i] = h[i]; } }
 
         private string namaMatKul;
 		private string ruanganDom;
