@@ -8,9 +8,14 @@ namespace LocalSearch
 {
     class Checker
     {
+        public Checker(List<MataKuliah> LM)
+        {
+            arrMKKonflik = new int[LM.Count];
+        }
+
         public Boolean checkAvail(MataKuliah MK, List<Ruangan> LR)
         {
-            Boolean avail=false;
+            Boolean avail = false;
             int i = 0;
             while (i < LR.Count())
             {
@@ -26,9 +31,9 @@ namespace LocalSearch
                 {
                     --i;
                 }
-                if ((MK.getJamSol()>=LR[i].getjamMulai()) && (MK.getJamSol() + MK.getSks() <= LR[i].getjamAkhir()) )
+                if ((MK.getJamSol() >= LR[i].getjamMulai()) && (MK.getJamSol() + MK.getSks() <= LR[i].getjamAkhir()))
                 {
-                    foreach(int j in LR[i].getHariAvailable())
+                    foreach (int j in LR[i].getHariAvailable())
                     {
                         if (MK.getHariSol() == j)
                         {
@@ -46,22 +51,29 @@ namespace LocalSearch
             return avail;
         }
 
-        public int hitungKonflik(List<MataKuliah> LM)
+        public void hitungKonflik(List<MataKuliah> LM)
         {
             int konflik = 0;
-            for(int i = 0; i < LM.Count(); ++i)
+            for (int i = 0; i < LM.Count(); ++i)
             {
-                for(int j=i+1;j<LM.Count();++j)
+                for (int j = i + 1; j < LM.Count(); ++j)
                 {
-                    if((LM[i].getRuanganSol() == LM[j].getRuanganSol()) && (LM[i].getHariSol() == LM[j].getHariSol() && 
-                       !(LM[i].getJamSol() +LM[i].getSks() <= LM[j].getJamSol() || LM[j].getJamSol() +LM[j].getSks() <= LM[i].getJamSol())))
+                    if ((LM[i].getRuanganSol() == LM[j].getRuanganSol()) && (LM[i].getHariSol() == LM[j].getHariSol() &&
+                       !(LM[i].getJamSol() + LM[i].getSks() <= LM[j].getJamSol() || LM[j].getJamSol() + LM[j].getSks() <= LM[i].getJamSol())))
                     {
+                        arrMKKonflik[i]++;
+                        arrMKKonflik[j]++;
                         ++konflik;
                     }
                 }
             }
-            return konflik;
+            jumlahKonflik = konflik;
         }
 
-        }
+        static int[] arrMKKonflik; //array jumlah konflik masing2 matkul
+
+        static int jumlahKonflik = 0; //jumlah total konflik
+        
+    }
+        
 }
