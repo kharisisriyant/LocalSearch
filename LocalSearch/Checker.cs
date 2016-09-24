@@ -53,13 +53,10 @@ namespace LocalSearch
             {
                 for(int j=i+1;j<LM.Count();++j)
                 {
-                    if (LM[i].getNamaMatKul() != LM[j].getNamaMatKul())
+                    if((LM[i].getRuanganSol() == LM[j].getRuanganSol()) && (LM[i].getHariSol() == LM[j].getHariSol() && 
+                       !(LM[i].getJamSol() +LM[i].getSks() <= LM[j].getJamSol() || LM[j].getJamSol() +LM[j].getSks() <= LM[i].getJamSol())))
                     {
-                        if((LM[i].getRuanganSol() == LM[j].getRuanganSol()) && (LM[i].getHariSol() == LM[j].getHariSol() && 
-                            (LM[i].getJamSol() +LM[i].getSks() <= LM[j].getJamSol() || LM[j].getJamSol() +LM[j].getSks() <= LM[i].getJamSol())))
-                        {
-                            ++konflik;
-                        }
+                        ++konflik;
                     }
                 }
             }
