@@ -20,11 +20,13 @@ namespace LocalSearch
                 }
                 i++;
             }
-
             if (i < LR.Count())
             {
-                --i;
-                if(MK.getJamSol()>=LR[i].getjamMulai() && MK.getJamSol() + MK.getSks() <= LR[i].getjamAkhir() )
+                if (i != 0)
+                {
+                    --i;
+                }
+                if ((MK.getJamSol()>=LR[i].getjamMulai()) && (MK.getJamSol() + MK.getSks() <= LR[i].getjamAkhir()) )
                 {
                     foreach(int j in LR[i].getHariAvailable())
                     {

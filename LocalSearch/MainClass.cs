@@ -31,6 +31,8 @@ namespace LocalSearch
                 if (!listMK[i].getRuanganDom().Equals("-", StringComparison.Ordinal)) {
                     listMK[i].setRuanganSol(listMK[i].getRuanganDom());
                     Console.WriteLine("Assigned to room " + listMK[i].getRuanganSol());
+                    Console.WriteLine("Jam Mulai " + listMK[i].getJamSol());
+                    Console.WriteLine("Jam Akhir " + (listMK[i].getSks()+listMK[i].getJamSol()));
                     while (!found) {
                         if (listMK[i].getRuanganSol().Equals(listR[temp].getNamaRuangan(), StringComparison.Ordinal)) {
                             found = true;
@@ -62,7 +64,8 @@ namespace LocalSearch
                     temp = rng.Next(0, banyakRuangan);
                     listMK[i].setRuanganSol(listR[temp].getNamaRuangan());
                     Console.WriteLine("Assigned to room " + listMK[i].getRuanganSol());
-
+                    Console.WriteLine("Jam Mulai " + listMK[i].getJamSol());
+                    Console.WriteLine("Jam Akhir " + (listMK[i].getSks() + listMK[i].getJamSol()));
                     //Calculate Possible Day
                     possibleDay = listMK[i].getHariDom().Intersect(listR[temp].getHariAvailable());
 
@@ -129,6 +132,15 @@ namespace LocalSearch
 			}
 
             Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            /* test checker
+            Checker ch = new Checker();
+            listMK[0].setHariSol(3);
+            listMK[0].setJamSol(11);
+            listMK[0].setRuanganSol("7602");
+            Console.WriteLine(ch.checkAvail(listMK[0], listR));
+            */
+            Checker ch = new Checker();
+            Console.WriteLine("Konflik ada " + ch.hitungKonflik(listMK));
             Console.Read();
 		}
 	}
