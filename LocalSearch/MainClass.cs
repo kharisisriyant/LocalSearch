@@ -8,11 +8,6 @@ namespace LocalSearch
 		public MainClass ()
 		{
 		}
-
-        void GeneticAlgorithm(List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan){
-            Boolean[,,] conditionMatrix = new Boolean[5, 24, banyakJadwal];
-            string[] sample = new string[256];
-        }
         
 		static void Main(string[] args){
 			FileParser fp = new FileParser ();
