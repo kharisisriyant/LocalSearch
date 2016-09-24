@@ -71,6 +71,11 @@ namespace LocalSearch
             jumlahKonflik = konflik;
         }
 
+        public int getIndexMaxMKKonflik()
+        {
+            return arrMKKonflik.Max();
+        }
+
         public int getJumlahKonflik()
         {
             return jumlahKonflik;
