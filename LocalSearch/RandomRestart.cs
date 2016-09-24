@@ -10,6 +10,16 @@ namespace LocalSearch
     {
         private int thresholdMax = 100;
         private int thresholdRestart = 10;
+        public List<MataKuliah> cloneListMK(List<MataKuliah> LM)
+        {
+            List<MataKuliah> temp = new List<MataKuliah>();
+            for (int i = 0; i < LM.Count; i++)
+            {
+                MataKuliah mk = new MataKuliah();
+                temp.Add(mk);
+            }
+            return temp;
+        }
         public void randomRestart(List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan)
         {
             int step = 0;
@@ -19,20 +29,15 @@ namespace LocalSearch
             init.Initialize(LMK, LR, banyakjadwal, banyakruangan);
             ch.hitungKonflik(LMK);
             //history best konflik yang ada
-            List<MataKuliah> HLMK = LMK; // history awal saat inisialisasi awal 
-            Checker ch2 = new Checker();
+            List<MataKuliah> HLMK = cloneListMK(LMK); // history awal saat inisialisasi awal 
 
-            while (step != thresholdMax && ch.getJumlahKonflik() != 0)
+            Checker ch2 = new Checker();
+            while (step < thresholdMax && ch.getJumlahKonflik() > 0)
             {
                 init.Initialize(LMK, LR, banyakjadwal, banyakruangan);
                 ch.hitungKonflik(LMK);
                 ++step;
-                //set histroy di step 0 saja, history akan ditimpa yg lebih baik di looping kedua
-                if (step == 0)
-                {
-                    HLMK = LMK;
-                }
-                while (ch.getJumlahKonflik() != 0 && (step % thresholdRestart != 0))
+                while (ch.getJumlahKonflik() > 0 && (step % thresholdRestart > 0))
                 {
                     konfliklama = ch.getJumlahKonflik();
                     int i = ch.getIndexMaxMKKonflik();
@@ -49,15 +54,15 @@ namespace LocalSearch
                         newAssign(i, LMK, LR, banyakjadwal, banyakruangan);
                         ch.hitungKonflik(LMK);
                         ch2.hitungKonflik(HLMK);
-                        if (ch.getJumlahKonflik() <= ch2.getJumlahKonflik())
-                        {
-                            HLMK = LMK;
-                        }
                     }
                     ++step;
                 }
+                if (ch.getJumlahKonflik() <= ch2.getJumlahKonflik())
+                {
+                    HLMK = LMK;
+                }
             }
-            //jika hasil akhir lebih jelek dr histroy terbaik maka di ganti
+            //jika hasil akhir lebih jelek dr history terbaik maka di ganti
             ch2.hitungKonflik(HLMK);
             ch.hitungKonflik(LMK);
             if (ch.getJumlahKonflik() > ch2.getJumlahKonflik())

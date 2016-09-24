@@ -39,6 +39,7 @@
     <Compile Include="MainClass.cs" />
     <Compile Include="RandomRestart.cs" />
     <Compile Include="Ruangan.cs" />
+    <Compile Include="SimulatedAnnealing.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

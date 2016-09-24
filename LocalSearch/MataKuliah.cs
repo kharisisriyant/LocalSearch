@@ -31,6 +31,10 @@ namespace LocalSearch
 			Console.WriteLine ("{0}", hariDom[0]);
 		}
 
+        public MataKuliah()
+        {
+        }
+
         public string getNamaMatKul() { return namaMatKul; }
         public string getRuanganDom() { return ruanganDom; }
         public string getRuanganSol() { return ruanganSol; }
