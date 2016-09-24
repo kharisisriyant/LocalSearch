@@ -78,7 +78,20 @@ namespace LocalSearch
 
         public int getIndexMaxMKKonflik()
         {
-            return Array.IndexOf(arrMKKonflik, getValueMaxMKKonflik());
+            int j = 0;
+            int max = getValueMaxMKKonflik();
+            int[] temp = new int[arrMKKonflik.Length];
+            for (int i = 0; i < arrMKKonflik.Length; ++i)
+            {
+                if(arrMKKonflik[i] == max)
+                {
+                    temp[j] = i;
+                    ++j;
+                } 
+            }
+            Random rng = new Random();
+            int randomIdx = rng.Next(0, j-1);
+            return temp[randomIdx];
         }
 
         public int getJumlahKonflik()
