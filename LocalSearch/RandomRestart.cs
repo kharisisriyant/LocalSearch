@@ -49,6 +49,7 @@ namespace LocalSearch
                         newAssign(i, LMK, LR, banyakjadwal, banyakruangan);
                         ++step;
                     }
+                    ++step;
                 }
                 System.Console.WriteLine("selesai\n");
                 ch.hitungKonflik(LMK);
