@@ -4,6 +4,12 @@ namespace LocalSearch
 {
 	public class MataKuliah
 	{
+        //Dibutuhin, jangan dihapus
+        public MataKuliah ()
+        {
+            jamDom = new int[2];
+        }
+
 		public MataKuliah (string matKul)
 		{
 			string[] line = matKul.Split(';');
@@ -41,9 +47,22 @@ namespace LocalSearch
         public int getHariSol() { return hariSol; }
         public int getSks() { return sks; }
 
+        public void setNamaMatkul(String s) { namaMatKul = s; }
+        public void setRuanganDom(String s) { ruanganDom = s; }
         public void setRuanganSol(String s) { ruanganSol = s; }
+        public void setJamDomAwal(int i) { jamDom[0] = i; }
+        public void setJamDomAkhir(int i) { jamDom[1] = i; }
         public void setJamSol(int i) { jamSol = i; }
+        public void setHariDom(int[] i)
+        {
+            hariDom = new int[i.Length];
+            for (int j = 0; j < i.Length; j++)
+            {
+                hariDom[j] = i[j];
+            }
+        }
         public void setHariSol(int i) { hariSol = i; }
+        public void setSks(int i) { sks = i; }
 
         private string namaMatKul;
 		private string ruanganDom;

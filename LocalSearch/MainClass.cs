@@ -10,7 +10,19 @@ namespace LocalSearch
 		}
         
 		static void Main(string[] args){
-			FileParser fp = new FileParser ();
+            int[] b = new int[3];
+            b[0] = 99;
+            b[1] = 55;
+            b[2] = 11;
+            int[] a = new int[b.Length];
+            for (int c = 0; c < b.Length; c++)
+            {
+                a[c] = b[c];
+                Console.WriteLine(Object.ReferenceEquals(a, b));
+                Console.WriteLine(Object.ReferenceEquals(a[c], b[c]));
+            }
+
+            FileParser fp = new FileParser ();
 
 			string[] jadwal = fp.getJadwal ();
 
@@ -37,7 +49,7 @@ namespace LocalSearch
             
             //Genetic Algorithm
             GeneticAlgorithm ga = new GeneticAlgorithm();
-            listMK = ga.geneticAlgorithm(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            listMK = ga.geneticAlgorithm(200000,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Initializer init = new Initializer();
             //init.Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
@@ -51,6 +63,15 @@ namespace LocalSearch
 
             Checker ch = new Checker();
             ch.hitungKonflik(listMK);
+            for (int i = 0; i < listMK.ToArray().Length; i++)
+            {
+                Console.WriteLine("Nama " + listMK[i].getNamaMatKul());
+                Console.WriteLine("Ruangan " + listMK[i].getRuanganSol());
+                Console.WriteLine("Jam Mulai " + listMK[i].getJamSol());
+                Console.WriteLine("Jam Akhir " + (listMK[i].getSks() + listMK[i].getJamSol()));
+                Console.WriteLine("Hari " + listMK[i].getHariSol());
+
+            }
             Console.WriteLine("Konflik ada " + ch.getJumlahKonflik()); 
             Console.Read();
 		}

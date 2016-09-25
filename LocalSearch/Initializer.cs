@@ -11,7 +11,7 @@ namespace LocalSearch
         public void Initialize(List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan)
         {
             //Random and Variables
-            Random rng = new Random();
+            Random rng = new Random(Guid.NewGuid().GetHashCode());
             int minTime = 0;
             int maxTime = 0;
             IEnumerable<int> possibleDay;
@@ -87,6 +87,7 @@ namespace LocalSearch
                     {
                         temp = rng.Next(0, banyakRuangan);
                         listMK[i].setRuanganSol(listR[temp].getNamaRuangan());
+                        Console.WriteLine("Reassigned to room " + listMK[i].getRuanganSol());
                         possibleDay = listMK[i].getHariDom().Intersect(listR[temp].getHariAvailable());
                         if (listR[temp].getjamMulai() > listMK[i].getJamDomAwal())
                         {
