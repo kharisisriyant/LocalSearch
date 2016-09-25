@@ -8,15 +8,16 @@ namespace LocalSearch
 {
     class GeneticAlgorithm
     {
-        void geneticAlgorithm(List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan) {
+        public List<MataKuliah> geneticAlgorithm(List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan)
+        {
             List<List<MataKuliah>> sample = new List<List<MataKuliah>>();
             List<List<MataKuliah>> temp = new List<List<MataKuliah>>();
-            MataKuliah[] listTemp = new MataKuliah[banyakJadwal];
+            MataKuliah[] listTemp = new MataKuliah[banyakJadwal+1];
             Random rng = new Random();
             Initializer init = new Initializer();
             int[] fitness = new int[32];
             float[] chanceThreshold = new float[32];
-            int maxFitness = (banyakJadwal-1) * (banyakJadwal) / 2;
+            int maxFitness = (banyakJadwal - 1) * (banyakJadwal) / 2;
             int totalFitness;
             float randomNumber;
             int randomNumberI;
@@ -28,13 +29,17 @@ namespace LocalSearch
             IEnumerable<int> possibleDay;
 
             //Initial generation
-            for (int i = 0; i < 32; i++) {
+            for (int i = 0; i < 32; i++)
+            {
                 init.Initialize(listMK, listR, banyakJadwal, banyakRuangan);
                 sample.Add(listMK.ToList()); //ToList() is used to ensure new list is created
             }
 
             //Series of Genetic Algorithm process
-            for (int step = 0; step < 100; step++) {
+            for (int step = 0; step < 100; step++)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Process : " + step);
                 //Calculate fitness function
                 totalFitness = 0;
                 for (int i = 0; i < 32; i++)
@@ -43,6 +48,7 @@ namespace LocalSearch
                     fitness[i] = maxFitness - check.getJumlahKonflik();
                     totalFitness = totalFitness + fitness[i];
                 }
+                Console.WriteLine("Fitness function done");
 
                 //Selection chance
                 chanceThreshold[0] = ((float)fitness[0]) / ((float)totalFitness);
@@ -50,49 +56,49 @@ namespace LocalSearch
                 {
                     chanceThreshold[i] = chanceThreshold[i - 1] + ((float)fitness[i]) / ((float)totalFitness);
                 }
+                Console.WriteLine("Selection chance done");
 
                 //Selection
                 for (int i = 0; i < 32; i++)
                 {
                     randomNumber = ((float)rng.Next(0, 1001)) / 1000f;
-                    while (index < 32)
+                    while ((index < 32) && (randomNumber > chanceThreshold[index]))
                     {
-                        if (randomNumber > chanceThreshold[index])
-                        {
-                            index++;
-                        }
+                        index++;
                     }
                     if (index == 32)
                     {
                         index = 31;
                     }
-                    temp[i] = sample[index].ToList();
+                    temp.Add(sample[index].ToList());
                 }
 
                 sample = temp;
+                Console.WriteLine("Selection done");
 
                 //Crossover
                 for (int i = 0; i < 32; i = i + 2)
                 {
-                    randomNumberI = rng.Next(0, 33);
-                    if (randomNumberI != 32)
+                    randomNumberI = rng.Next(0, banyakJadwal);
+                    if (randomNumberI != (banyakJadwal-1))
                     {
-                        index = randomNumberI;
-                        sample[i].CopyTo(listTemp, randomNumberI);
-                        for (int j = 0; j < listTemp.Length; j++)
+                        index = (randomNumberI+1);
+                        sample[i].CopyTo((index),listTemp,0,(banyakJadwal-index));
+                        for (int j = 0; j < (banyakJadwal - index) ; j++)
                         {
                             sample[i][index] = sample[i + 1].GetRange(index, 1)[0];
                             sample[i + 1][index] = listTemp[j];
                         }
                     }
                 }
+                Console.WriteLine("Crossover done");
 
                 //Mutation
                 for (int i = 0; i < 32; i++)
                 {
                     index = 0;
-                    randomNumberI = rng.Next(0, 33);
-                    if (randomNumberI != 32)
+                    randomNumberI = rng.Next(0, (banyakJadwal+1));
+                    if (randomNumberI != banyakJadwal)
                     {
                         if (!sample[i][randomNumberI].getRuanganDom().Equals("-", StringComparison.Ordinal))
                         {
@@ -179,6 +185,13 @@ namespace LocalSearch
                     }
                 }
             }
+            Console.WriteLine("Mutation Done");
+            for (int i = 0; i < 32; i++)
+            {
+                check.hitungKonflik(sample[i]);
+                fitness[i] = maxFitness - check.getJumlahKonflik();
+            }
+            return (sample[Array.IndexOf(fitness, fitness.Max())]);
         }
     }
 }

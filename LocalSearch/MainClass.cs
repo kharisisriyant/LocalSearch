@@ -31,8 +31,13 @@ namespace LocalSearch
 				listR.Add (r);
 			}
 
-            RandomRestart rr = new RandomRestart();
-            rr.randomRestart(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            //Random Restart
+            //RandomRestart rr = new RandomRestart();
+            //rr.randomRestart(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            
+            //Genetic Algorithm
+            GeneticAlgorithm ga = new GeneticAlgorithm();
+            listMK = ga.geneticAlgorithm(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Initializer init = new Initializer();
             //init.Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
@@ -43,6 +48,7 @@ namespace LocalSearch
             listMK[0].setRuanganSol("7602");
             Console.WriteLine(ch.checkAvail(listMK[0], listR));
             */
+
             Checker ch = new Checker();
             ch.hitungKonflik(listMK);
             Console.WriteLine("Konflik ada " + ch.getJumlahKonflik()); 
