@@ -8,94 +8,215 @@ namespace LocalSearch
 {
     class GeneticAlgorithm
     {
-        void geneticAlgorithm(List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan) {
-            Random rng = new Random();
+        static private List<MataKuliah> deepClone(List<MataKuliah> listMK, int banyakJadwal)
+        {
+            List<MataKuliah> ltemp = new List<MataKuliah>();
+            for(int i = 0; i < banyakJadwal; i++)
+            {
+                MataKuliah temp = new MataKuliah();
+                temp.setNamaMatkul(listMK[i].getNamaMatKul());
+                temp.setRuanganDom(listMK[i].getRuanganDom());
+                temp.setRuanganSol(listMK[i].getRuanganSol());
+                temp.setJamDomAwal(listMK[i].getJamDomAwal());
+                temp.setJamDomAkhir(listMK[i].getJamDomAkhir());
+                temp.setJamSol(listMK[i].getJamSol());
+                temp.setHariDom(listMK[i].getHariDom());
+                temp.setHariSol(listMK[i].getHariSol());
+                temp.setSks(listMK[i].getSks());
+                ltemp.Add(temp);
+            }
+            return ltemp;
+        }
+
+        public List<MataKuliah> geneticAlgorithm(int stepCount, List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan)
+        {
+            List<List<MataKuliah>> sample = new List<List<MataKuliah>>();
+            List<List<MataKuliah>> temp = new List<List<MataKuliah>>();
+            MataKuliah[] listTemp = new MataKuliah[banyakJadwal+1];
+            Random rng = new Random(Guid.NewGuid().GetHashCode());
             Initializer init = new Initializer();
-            string[] sample = new string[32];
-            string[] temp = new string[32];
-            string strtmp;
             int[] fitness = new int[32];
             float[] chanceThreshold = new float[32];
-            int maxFitness = (banyakJadwal-1) * (banyakJadwal) / 2;
-            int totalFitness = 0;
+            int maxFitness = (banyakJadwal - 1) * (banyakJadwal) / 2;
+            int totalFitness;
             float randomNumber;
+            int randomNumberI;
             int index = 0;
-            int count;
             Checker check = new Checker();
+            Boolean found = false;
+            int minTime = 0;
+            int maxTime = 0;
+            IEnumerable<int> possibleDay;
 
-            for (int i = 0; i < 32; i++) {
+            //Initial generation
+            for (int i = 0; i < 32; i++)
+            {
                 init.Initialize(listMK, listR, banyakJadwal, banyakRuangan);
-                check.hitungKonflik(listMK);
-                fitness[i] = maxFitness - check.getJumlahKonflik();
-                totalFitness = totalFitness + fitness[i];
-                sample[i] = "";
-                for (int j = 0; j < banyakJadwal; j++) {
-                    sample[i] = sample[i] + listMK[j].getNamaMatKul() + listMK[j].getRuanganSol() + listMK[j].getHariSol() + listMK[j].getJamSol() + listMK[j].getSks() + "/";
-                }
-            }
-            chanceThreshold[0] = ((float)fitness[0]) / ((float)totalFitness);
-            for (int i = 1; i < 32; i++) {
-                chanceThreshold[i] = chanceThreshold[i - 1] + ((float)fitness[i]) / ((float)totalFitness);
+                sample.Add(deepClone(listMK, banyakJadwal));
             }
 
-            //Selection
-            for (int i = 0; i < 32; i++) {
-                randomNumber = ((float)rng.Next(0, 1001)) / 1000f;
-                while (index < 32)
+            //Series of Genetic Algorithm process
+            for (int step = 0; step < stepCount; step++)
+            {
+                //Console.WriteLine();
+                if (step % 25000 == 0)
                 {
-                    if (randomNumber > chanceThreshold[index])
+                    Console.WriteLine("Process : " + step);
+                }
+                
+                //Calculate fitness function
+                totalFitness = 0;
+                for (int i = 0; i < 32; i++)
+                {
+                    check.hitungKonflik(sample[i]);
+                    fitness[i] = maxFitness - check.getJumlahKonflik();
+                    totalFitness = totalFitness + fitness[i];
+                }
+                //Console.WriteLine("Fitness function done");
+
+                //Selection chance
+                chanceThreshold[0] = ((float)fitness[0]) / ((float)totalFitness);
+                for (int i = 1; i < 32; i++)
+                {
+                    chanceThreshold[i] = chanceThreshold[i - 1] + ((float)fitness[i]) / ((float)totalFitness);
+                }
+                //Console.WriteLine("Selection chance done");
+
+                //Selection
+                temp = new List<List<MataKuliah>>();
+                for (int i = 0; i < 32; i++)
+                {
+                    randomNumber = ((float)rng.Next(0, 1001)) / 1000f;
+                    while ((index < 32) && (randomNumber > chanceThreshold[index]))
                     {
                         index++;
                     }
+                    if (index == 32)
+                    {
+                        index = 31;
+                    }
+                    temp.Add(deepClone(sample[index],banyakJadwal));
                 }
-                if (index == 32)
+
+                sample = temp;
+                //Console.WriteLine("Selection done");
+
+                //Crossover
+                for (int i = 0; i < 32; i = i + 2)
                 {
-                    index = 31;
-                }
-                temp[i] = String.Copy(sample[index]);
-            }
-
-            sample = temp;
-
-            //Crossover
-            for (int i = 0; i < 32; i = i + 2){
-                randomNumber = rng.Next(0, 32);
-                int j = 0;
-                int k = 0;
-                count = 0;
-                while (count < randomNumber) {
-                    if (sample[i][j] == '/') {
-                        count++;
+                    randomNumberI = rng.Next(0, banyakJadwal);
+                    if (randomNumberI != (banyakJadwal-1))
+                    {
+                        index = (randomNumberI+1);
+                        sample[i].CopyTo((index),listTemp,0,(banyakJadwal-index));
+                        for (int j = 0; j < (banyakJadwal - index) ; j++)
+                        {
+                            sample[i][index] = sample[i + 1].GetRange(index, 1)[0];
+                            sample[i + 1][index] = listTemp[j];
+                        }
                     }
-                    j++;
                 }
-                count = 0;
-                while (count < randomNumber) {
-                    if (sample[i+1][k] == '/') {
-                        count++;
+                //Console.WriteLine("Crossover done");
+
+                //Mutation
+                for (int i = 0; i < 32; i++)
+                {
+                    index = 0;
+                    randomNumberI = rng.Next(0, (banyakJadwal+1));
+                    if (randomNumberI != banyakJadwal)
+                    {
+                        if (!sample[i][randomNumberI].getRuanganDom().Equals("-", StringComparison.Ordinal))
+                        {
+                            sample[i][randomNumberI].setRuanganSol(sample[i][randomNumberI].getRuanganDom());
+                            while (!found)
+                            {
+                                if (sample[i][randomNumberI].getRuanganSol().Equals(listR[index].getNamaRuangan(), StringComparison.Ordinal))
+                                {
+                                    found = true;
+                                }
+                                else {
+                                    index++;
+                                }
+                            }
+
+                            //Calculate Possible Day
+                            possibleDay = sample[i][randomNumberI].getHariDom().Intersect(listR[index].getHariAvailable());
+
+                            //Calculate Possible Time
+                            if (listR[index].getjamMulai() > sample[i][randomNumberI].getJamDomAwal())
+                            {
+                                minTime = listR[index].getjamMulai();
+                            }
+                            else {
+                                minTime = sample[i][randomNumberI].getJamDomAwal();
+                            }
+                            if (listR[index].getjamAkhir() < sample[i][randomNumberI].getJamDomAkhir())
+                            {
+                                maxTime = listR[index].getjamAkhir();
+                            }
+                            else {
+                                maxTime = sample[i][randomNumberI].getJamDomAkhir();
+                            }
+                        }
+                        //If there's room restriction
+                        else {
+                            index = rng.Next(0, banyakRuangan);
+                            sample[i][randomNumberI].setRuanganSol(listR[index].getNamaRuangan());
+                            //Calculate Possible Day
+                            possibleDay = sample[i][randomNumberI].getHariDom().Intersect(listR[index].getHariAvailable());
+
+                            //Calculate Possible Time
+                            if (listR[index].getjamMulai() > sample[i][randomNumberI].getJamDomAwal())
+                            {
+                                minTime = listR[index].getjamMulai();
+                            }
+                            else {
+                                minTime = sample[i][randomNumberI].getJamDomAwal();
+                            }
+                            if (listR[index].getjamAkhir() < sample[i][randomNumberI].getJamDomAkhir())
+                            {
+                                maxTime = listR[index].getjamAkhir();
+                            }
+                            else {
+                                maxTime = sample[i][randomNumberI].getJamDomAkhir();
+                            }
+
+                            //If assignment is not possible, do reassignment to room
+                            while ((possibleDay.ToArray().Length == 0) || ((minTime + sample[i][randomNumberI].getSks()) > maxTime))
+                            {
+                                index = rng.Next(0, banyakRuangan);
+                                sample[i][randomNumberI].setRuanganSol(listR[index].getNamaRuangan());
+                                possibleDay = sample[i][randomNumberI].getHariDom().Intersect(listR[index].getHariAvailable());
+                                if (listR[index].getjamMulai() > sample[i][randomNumberI].getJamDomAwal())
+                                {
+                                    minTime = listR[index].getjamMulai();
+                                }
+                                else {
+                                    minTime = sample[i][randomNumberI].getJamDomAwal();
+                                }
+                                if (listR[index].getjamAkhir() < sample[i][randomNumberI].getJamDomAkhir())
+                                {
+                                    maxTime = listR[index].getjamAkhir();
+                                }
+                                else {
+                                    maxTime = sample[i][randomNumberI].getJamDomAkhir();
+                                }
+                            }
+                        }
+                        index = rng.Next(0, possibleDay.ToArray().Length);
+                        sample[i][randomNumberI].setHariSol(possibleDay.ElementAt(index));
+                        index = rng.Next(minTime, (maxTime + 1 - sample[i][randomNumberI].getSks()));
+                        sample[i][randomNumberI].setJamSol(index);
                     }
-                    k++;
                 }
-                if (j > 0) {
-                    j = j - 1;
-                }
-                if (k > 0) {
-                    k = k - 1;
-                }
-                strtmp = String.Copy(sample[i]);
-                sample[i] = sample[i].Substring(0, j) + sample[i + 1].Substring(k);
-                sample[i + 1] = sample[i + 1].Substring(0, k) + strtmp.Substring(j);
             }
-
-            //Mutation
-            randomNumber = rng.Next(0,33);
-            if (randomNumber != 32) {
-
+            //Console.WriteLine("Mutation Done");
+            for (int i = 0; i < 32; i++)
+            {
+                check.hitungKonflik(sample[i]);
+                fitness[i] = maxFitness - check.getJumlahKonflik();
             }
-        }
-
-        int fitnessFunction (string sample, int banyakJadwal) {
-            return 1; 
+            return (sample[Array.IndexOf(fitness, fitness.Max())]);
         }
     }
 }

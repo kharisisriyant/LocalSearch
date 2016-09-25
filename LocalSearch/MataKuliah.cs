@@ -4,6 +4,12 @@ namespace LocalSearch
 {
 	public class MataKuliah
 	{
+        //Dibutuhin, jangan dihapus
+        public MataKuliah ()
+        {
+            jamDom = new int[2];
+        }
+
 		public MataKuliah (string matKul)
 		{
 			string[] line = matKul.Split(';');
@@ -58,16 +64,26 @@ namespace LocalSearch
         public int getHariSol() { return hariSol; }
         public int getSks() { return sks; }
 
+
         //setter
-        public void setNamaMatKul(string s) { namaMatKul = s; }
-        public void setRuanganDom(string s) { ruanganDom = s; }
-        public void setRuanganSol(string s) { ruanganSol = s; }
+        public void setNamaMatkul(String s) { namaMatKul = s; }
+        public void setRuanganDom(String s) { ruanganDom = s; }
+        public void setRuanganSol(String s) { ruanganSol = s; }
+        public void setJamDomAwal(int i) { jamDom[0] = i; }
+        public void setJamDomAkhir(int i) { jamDom[1] = i; }
         public void setJamSol(int i) { jamSol = i; }
+        public void setHariDom(int[] i)
+        {
+            hariDom = new int[i.Length];
+            for (int j = 0; j < i.Length; j++)
+            {
+                hariDom[j] = i[j];
+            }
+        }
         public void setHariSol(int i) { hariSol = i; }
         public void setJamDomAwal(int jD) { jamDom[0] = jD; }
         public void setJamDomAkhir(int jD) { jamDom[1] = jD; }
         public void setSks(int s) { sks = s; }
-        public void setHariDom(int[] h) { hariDom = new int[h.Length]; for(int i = 0;i<h.Length; ++i) { hariDom[i] = h[i]; } }
 
         private string namaMatKul;
 		private string ruanganDom;
