@@ -43,12 +43,12 @@ namespace LocalSearch
                     newAssign(i, LMK, LR, banyakjadwal, banyakruangan);
                     ch.hitungKonflik(LMK);
                     Console.WriteLine("Konflik: " + ch.getJumlahKonflik());
-                    while (ch.getJumlahKonflik() > konfliklama)
+                    while (ch.getJumlahKonflik() > konfliklama && (step % thresholdRestart > 0))
                     {
                         ch.hitungKonflik(LMK);
                         newAssign(i, LMK, LR, banyakjadwal, banyakruangan);
+                        ++step;
                     }
-                    ++step;
                 }
                 System.Console.WriteLine("selesai\n");
                 ch.hitungKonflik(LMK);

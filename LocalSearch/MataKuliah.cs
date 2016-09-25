@@ -40,7 +40,7 @@ namespace LocalSearch
         //Copy Constructor
         public MataKuliah(MataKuliah n)
         {
-            setNamaMatKul(n.getNamaMatKul());
+            setNamaMatkul(n.getNamaMatKul());
             setRuanganDom(n.getRuanganDom());
             setRuanganSol(n.getRuanganSol());
             jamDom = new int[2];
@@ -66,9 +66,9 @@ namespace LocalSearch
 
 
         //setter
-        public void setNamaMatkul(String s) { namaMatKul = s; }
-        public void setRuanganDom(String s) { ruanganDom = s; }
-        public void setRuanganSol(String s) { ruanganSol = s; }
+        public void setNamaMatkul(string s) { namaMatKul = s; }
+        public void setRuanganDom(string s) { ruanganDom = s; }
+        public void setRuanganSol(string s) { ruanganSol = s; }
         public void setJamDomAwal(int i) { jamDom[0] = i; }
         public void setJamDomAkhir(int i) { jamDom[1] = i; }
         public void setJamSol(int i) { jamSol = i; }
@@ -81,8 +81,6 @@ namespace LocalSearch
             }
         }
         public void setHariSol(int i) { hariSol = i; }
-        public void setJamDomAwal(int jD) { jamDom[0] = jD; }
-        public void setJamDomAkhir(int jD) { jamDom[1] = jD; }
         public void setSks(int s) { sks = s; }
 
         private string namaMatKul;
