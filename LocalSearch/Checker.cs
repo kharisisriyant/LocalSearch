@@ -104,6 +104,11 @@ namespace LocalSearch
             return arrMKKonflik;
         }
 
+        public int countMaxPossibleKonflik(List<MataKuliah> LM)
+        {
+            return (LM.Count * (LM.Count + 1)) / 2;
+        }
+
         private int[] arrMKKonflik; //array jumlah konflik masing2 matkul
 
         private int jumlahKonflik ; //jumlah total konflik
