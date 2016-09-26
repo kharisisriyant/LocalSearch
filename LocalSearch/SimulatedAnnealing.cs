@@ -49,8 +49,8 @@ namespace LocalSearch
                     {
                         LMK = tempLMK;
                     }
+                    temperatur = temperatur * ratio;
                 }
-                temperatur = temperatur * ratio;
                 Console.WriteLine("Konflik: " + ch.getJumlahKonflik() + "\n");
                 ++step;
             }
