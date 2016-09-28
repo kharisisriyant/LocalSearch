@@ -8,49 +8,79 @@ namespace LocalSearch
 {
     class SimulatedAnnealing
     {
+        private int thresholdMax = 10000; //threshold step sampai terminate
+
+        private double thresholdTemperature = 0.1; //threshold temperature untuk hill climbing
+
+        private double ratio = 0.9;
+
+        private double initTemperature = 100.0; //temperatur awal
 
         public void simulatedAnnealing(ref List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan)
         {
             
             Checker ch = new Checker();
             Initializer init = new Initializer();
+            init.Initialize(LMK, LR, banyakjadwal, banyakruangan); //inisialisasi
             ch.hitungKonflik(LMK);
-            double temperatur = 100.00;
-            int konfliklama = 0;
-            int konflikbaru = 0;
-            double chance = 0;
-            double rumus = 0;
-            List<MataKuliah> HLMK = cloneListMK(LMK); //variabel temp LMK
-            Checker ch2 = new Checker(); //checker temp LMK
-            while (ch.getJumlahKonflik() > 0 && temperatur > 0.1 )
+            List<MataKuliah> tempLMK = new List<MataKuliah>();
+            double temperatur = initTemperature;
+            int konflikLama = 0;
+            int konflikBaru = 0;
+            int deltaKonflik = 0;
+            double chance = 0.0;
+            int idxMax = 0;
+            int step = 1;
+
+            while (step < thresholdMax && ch.getJumlahKonflik() > 0)
             {
-                //isi variabel di awal secara random
-                init.Initialize(LMK, LR, banyakjadwal, banyakruangan);
                 ch.hitungKonflik(LMK);
-                konfliklama = ch.getJumlahKonflik();
-                int i = ch.getIndexMaxMKKonflik();
-                HLMK = cloneListMK(LMK);
-                newAssign(i, HLMK, LR, banyakjadwal, banyakruangan);
-                ch2.hitungKonflik(LMK);
-                konflikbaru = ch2.getJumlahKonflik();
-                if (konflikbaru <= konfliklama) //diambil
+                konflikLama = ch.getJumlahKonflik();
+                idxMax = ch.getIndexMaxMKKonflik();
+                tempLMK = cloneListMK(LMK);
+                newAssign(idxMax, LMK, LR, banyakjadwal, banyakruangan); //randomize value dari variabel konflik
+                ch.hitungKonflik(LMK);
+                konflikBaru = ch.getJumlahKonflik();
+                deltaKonflik = konflikBaru - konflikLama;
+                if (deltaKonflik > 0) //Bad Move
                 {
-                    LMK = cloneListMK(HLMK);
-                }
-                else //itung chance apakah diambil dan kurangin temperatur
-                {
-                    rumus = (-1 * (konfliklama - konflikbaru) / temperatur);
-                    chance = Math.Exp(rumus);
-                    temperatur = temperatur * 0.95;
-                    if(chance >= 0.1)
+                    chance = countProbability(temperatur, deltaKonflik, LMK);
+                    if (!isAccept(chance, temperatur)) //not accept change
                     {
-                        LMK = cloneListMK(HLMK);
+                        LMK = tempLMK;
                     }
+                    temperatur = temperatur * ratio;
                 }
+                Console.WriteLine("Konflik: " + ch.getJumlahKonflik() + "\n");
+                ++step;
             }
         }
-
-
+        
+        public double countProbability(double temp, int deltaKonf, List<MataKuliah> LM)
+        {
+            Checker ch = new Checker();
+            int maxKonflik = ch.countMaxPossibleKonflik(LM);
+            double prob = Math.Exp(-Convert.ToDouble(maxKonflik - deltaKonf) / temp);
+            return prob;
+        }
+        
+        public Boolean isAccept(double prob, double temp)//accept bad move or not
+        {
+            if(temp < thresholdTemperature)
+            {
+                return false;
+            }
+            Random rnd = new Random();
+            double r = rnd.Next(0, 100);
+            if ((prob - r) > 0)
+            {
+                return true; 
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public List<MataKuliah> cloneListMK(List<MataKuliah> LM)
         {

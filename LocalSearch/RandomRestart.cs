@@ -23,6 +23,7 @@ namespace LocalSearch
         public void randomRestart(ref List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan)
         {
             int step = 0;
+            int idxMax = 0;
             int konfliklama = 0;
             Checker ch = new Checker();
             Initializer init = new Initializer();
@@ -39,14 +40,14 @@ namespace LocalSearch
                 while (ch.getJumlahKonflik() > 0 && (step % thresholdRestart > 0))
                 {
                     konfliklama = ch.getJumlahKonflik();
-                    int i = ch.getIndexMaxMKKonflik();
-                    newAssign(i, LMK, LR, banyakjadwal, banyakruangan);
+                    idxMax = ch.getIndexMaxMKKonflik();
+                    newAssign(idxMax, LMK, LR, banyakjadwal, banyakruangan);
                     ch.hitungKonflik(LMK);
                     Console.WriteLine("Konflik: " + ch.getJumlahKonflik());
                     while (ch.getJumlahKonflik() > konfliklama && (step % thresholdRestart > 0))
                     {
                         ch.hitungKonflik(LMK);
-                        newAssign(i, LMK, LR, banyakjadwal, banyakruangan);
+                        newAssign(idxMax, LMK, LR, banyakjadwal, banyakruangan);
                         ++step;
                     }
                     ++step;
