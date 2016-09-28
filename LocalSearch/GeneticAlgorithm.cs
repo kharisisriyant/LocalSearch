@@ -108,11 +108,13 @@ namespace LocalSearch
                     if (randomNumberI != (banyakJadwal-1))
                     {
                         index = (randomNumberI+1);
+                        int length = (banyakJadwal - index);
                         sample[i].CopyTo((index),listTemp,0,(banyakJadwal-index));
-                        for (int j = 0; j < (banyakJadwal - index) ; j++)
+                        for (int j = 0; j < length ; j++)
                         {
                             sample[i][index] = sample[i + 1].GetRange(index, 1)[0];
                             sample[i + 1][index] = listTemp[j];
+                            index++;
                         }
                     }
                 }
