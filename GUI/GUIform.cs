@@ -35,7 +35,7 @@ namespace GUI
                 {
                     if ((fileTC = openFileDialog1.OpenFile()) != null)
                     {
-
+                        openedTestCasePath = openFileDialog1.FileName;
                         // Insert code to read the stream here.
                         fileTC.Close();
                         
@@ -59,7 +59,17 @@ namespace GUI
 
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void hcButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gaButton_CheckedChanged(object sender, EventArgs e)
         {
 
         }
@@ -72,6 +82,20 @@ namespace GUI
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (openedTestCasePath != null && (hcButton.Checked ==true || gaButton.Checked == true || saButton.Checked == true))
+            {
+
+                SolutionForm S = new SolutionForm();
+                S.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select the file first!");
+            }
         }
     }
 }

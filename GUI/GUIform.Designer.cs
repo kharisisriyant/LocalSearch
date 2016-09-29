@@ -31,9 +31,9 @@
             this.openFileButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label2 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.gaButton = new System.Windows.Forms.RadioButton();
+            this.saButton = new System.Windows.Forms.RadioButton();
+            this.hcButton = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -71,37 +71,39 @@
             // 
             // radioButton1
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(338, 171);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(119, 24);
-            this.radioButton1.TabIndex = 4;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Hill Climbing";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.hcButton.AutoSize = true;
+            this.hcButton.Location = new System.Drawing.Point(338, 171);
+            this.hcButton.Name = "radioButton1";
+            this.hcButton.Size = new System.Drawing.Size(119, 24);
+            this.hcButton.TabIndex = 4;
+            this.hcButton.TabStop = true;
+            this.hcButton.Text = "Hill Climbing";
+            this.hcButton.UseVisualStyleBackColor = true;
+            this.hcButton.CheckedChanged += new System.EventHandler(this.hcButton_CheckedChanged);
             // 
             // radioButton2
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(338, 201);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(180, 24);
-            this.radioButton2.TabIndex = 5;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Simulated Annealing";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.saButton.AutoSize = true;
+            this.saButton.Location = new System.Drawing.Point(338, 201);
+            this.saButton.Name = "radioButton2";
+            this.saButton.Size = new System.Drawing.Size(180, 24);
+            this.saButton.TabIndex = 5;
+            this.saButton.TabStop = true;
+            this.saButton.Text = "Simulated Annealing";
+            this.saButton.UseVisualStyleBackColor = true;
+            this.hcButton.CheckedChanged += new System.EventHandler(this.saButton_CheckedChanged);
             // 
             // radioButton3
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(338, 231);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(161, 24);
-            this.radioButton3.TabIndex = 6;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Genetic Algorithm";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.gaButton.AutoSize = true;
+            this.gaButton.Location = new System.Drawing.Point(338, 231);
+            this.gaButton.Name = "radioButton3";
+            this.gaButton.Size = new System.Drawing.Size(161, 24);
+            this.gaButton.TabIndex = 6;
+            this.gaButton.TabStop = true;
+            this.gaButton.Text = "Genetic Algorithm";
+            this.gaButton.UseVisualStyleBackColor = true;
+            this.hcButton.CheckedChanged += new System.EventHandler(this.gaButton_CheckedChanged);
             // 
             // label1
             // 
@@ -137,6 +139,7 @@
             this.button1.TabIndex = 9;
             this.button1.Text = "Solve";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // GUIform
             // 
@@ -146,9 +149,9 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.hcButton);
+            this.Controls.Add(this.saButton);
+            this.Controls.Add(this.gaButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.openFileButton);
             this.Name = "GUIform";
@@ -162,12 +165,14 @@
         private System.Windows.Forms.Button openFileButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton hcButton;
+        private System.Windows.Forms.RadioButton saButton;
+        private System.Windows.Forms.RadioButton gaButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
+        private string openedTestCasePath;
+
     }
 }
 
