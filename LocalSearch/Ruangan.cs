@@ -22,8 +22,22 @@ namespace LocalSearch
 				hariAvailable [i] = Int32.Parse (hari [i]);
 				i++;
 			}
+           
+            
+            //init bool[][]
+            i = 0;
+            int jumlahhari = getHariAvailable().Length;
+            int jamAvail = getjamAkhir() - getjamMulai();
+            terisi = new bool[jumlahhari,jamAvail];
+            for(int x=0; x<jumlahhari; x++)
+            {
+                for(int y=0; y<jamAvail; y++)
+                {
+                    terisi[x,y] = false;
+                }
+            }
 
-			Console.WriteLine ("{0}", namaRuangan);
+            Console.WriteLine ("{0}", namaRuangan);
 			Console.WriteLine ("{0}", jamAvailable[0]);
 			Console.WriteLine ("{0}", jamAvailable[1]);
 			Console.WriteLine ("{0}", hariAvailable[0]);
@@ -53,7 +67,7 @@ namespace LocalSearch
 		private string namaRuangan;
 		private int[] jamAvailable; //jamAvailable[0] awal jamAvailable[1] akhir 
 		private int[] hariAvailable;
-
+        public bool[,] terisi;
 		//notes: jam sama hari mau string atau mau int???
 	}
 }
