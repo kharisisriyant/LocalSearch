@@ -33,6 +33,7 @@ namespace LocalSearch
             {
                 for(int y=0; y<jamAvail; y++)
                 {
+                    terisi[x,y] = new bool();
                     terisi[x,y] = false;
                 }
             }

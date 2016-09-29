@@ -30,7 +30,7 @@ namespace LocalSearch
             }
         }
 
-        public double hitungEfektif(ref List<MataKuliah> LMK, List<Ruangan> R)
+        public double hitungEfektif(List<MataKuliah> LMK, List<Ruangan> R)
         {
             int nfalse = 0; //jumlah kelas false
             int ntrue = 0; //jumlah kelas true
@@ -54,7 +54,7 @@ namespace LocalSearch
                     }
                     for(int x = 0; x < LMK[a].getSks(); ++x) //iterasi untuk mengisi jam sesuai sks
                     {
-                        R[b].terisi[LMK[a].getHariSol(), LMK[a+x].getJamSol()] = true;
+                        R[b].terisi[LMK[a].getHariSol(), (LMK[a].getJamSol())+ x] = true;
                     }
                     ++a;
                 }

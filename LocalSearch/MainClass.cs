@@ -45,12 +45,12 @@ namespace LocalSearch
 
 
             //Random Restart
-            //RandomRestart rr = new RandomRestart();
-            //rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            RandomRestart rr = new RandomRestart();
+            rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Simmulated Annealing
-            SimulatedAnnealing sa = new SimulatedAnnealing();
-            sa.simulatedAnnealing(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            //SimulatedAnnealing sa = new SimulatedAnnealing();
+            //sa.simulatedAnnealing(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Genetic Algorithm
             //GeneticAlgorithm ga = new GeneticAlgorithm();
@@ -77,9 +77,11 @@ namespace LocalSearch
                 Console.WriteLine("Hari " + listMK[i].getHariSol());
 
             }
-            Console.WriteLine("Konflik ada " + ch.getJumlahKonflik()); 
+            Console.WriteLine("Konflik ada " + ch.getJumlahKonflik());
+            Others ot = new Others();
+            Console.WriteLine("Efektif = " + ot.hitungEfektif(listMK, listR) + " %");
             Console.Read();
-		}
+        }
 	}
 }
 
