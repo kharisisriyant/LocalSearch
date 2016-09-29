@@ -65,6 +65,11 @@ namespace LocalSearch
             return hariAvailable;
         }
 
+        public int getHariAVailable(int i)
+        {
+            return hariAvailable[i];
+        }
+
 		private string namaRuangan;
 		private int[] jamAvailable; //jamAvailable[0] awal jamAvailable[1] akhir 
 		private int[] hariAvailable;
