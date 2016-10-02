@@ -35,8 +35,9 @@ namespace GUI.LS
             MataKuliah[] listTemp = new MataKuliah[banyakJadwal+1];
             Random rng = new Random(Guid.NewGuid().GetHashCode());
             Initializer init = new Initializer();
-            int[] fitness = new int[32];
-            float[] chanceThreshold = new float[32];
+            int size = 1024;
+            int[] fitness = new int[size];
+            float[] chanceThreshold = new float[size];
             int maxFitness = (banyakJadwal - 1) * (banyakJadwal) / 2;
             int totalFitness;
             float randomNumber;
@@ -44,12 +45,13 @@ namespace GUI.LS
             int index = 0;
             Checker check = new Checker();
             Boolean found = false;
+            Boolean loopOut = false;
             int minTime = 0;
             int maxTime = 0;
             IEnumerable<int> possibleDay;
 
             //Initial generation
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < size; i++)
             {
                 init.Initialize(listMK, listR, banyakJadwal, banyakRuangan);
                 sample.Add(deepClone(listMK, banyakJadwal));
@@ -58,15 +60,16 @@ namespace GUI.LS
             //Series of Genetic Algorithm process
             for (int step = 0; step < stepCount; step++)
             {
+                index = 0;
                 //Console.WriteLine();
-                if (step % 25000 == 0)
-                {
-                    Console.WriteLine("Process : " + step);
-                }
+                //if (step % 25000 == 0)
+                //{
+                    //Console.WriteLine("Process : " + step);
+                //}
                 
                 //Calculate fitness function
                 totalFitness = 0;
-                for (int i = 0; i < 32; i++)
+                for (int i = 0; i < size; i++)
                 {
                     check.hitungKonflik(sample[i]);
                     fitness[i] = maxFitness - check.getJumlahKonflik();
@@ -76,7 +79,7 @@ namespace GUI.LS
 
                 //Selection chance
                 chanceThreshold[0] = ((float)fitness[0]) / ((float)totalFitness);
-                for (int i = 1; i < 32; i++)
+                for (int i = 1; i < size; i++)
                 {
                     chanceThreshold[i] = chanceThreshold[i - 1] + ((float)fitness[i]) / ((float)totalFitness);
                 }
@@ -84,16 +87,16 @@ namespace GUI.LS
 
                 //Selection
                 temp = new List<List<MataKuliah>>();
-                for (int i = 0; i < 32; i++)
+                for (int i = 0; i < size; i++)
                 {
                     randomNumber = ((float)rng.Next(0, 1001)) / 1000f;
-                    while ((index < 32) && (randomNumber > chanceThreshold[index]))
+                    while ((index < size) && (randomNumber > chanceThreshold[index]))
                     {
                         index++;
                     }
-                    if (index == 32)
+                    if (index == size)
                     {
-                        index = 31;
+                        index = (size - 1);
                     }
                     temp.Add(deepClone(sample[index],banyakJadwal));
                 }
@@ -102,7 +105,7 @@ namespace GUI.LS
                 //Console.WriteLine("Selection done");
 
                 //Crossover
-                for (int i = 0; i < 32; i = i + 2)
+                for (int i = 0; i < size; i = i + 2)
                 {
                     randomNumberI = rng.Next(0, banyakJadwal);
                     if (randomNumberI != (banyakJadwal-1))
@@ -121,9 +124,10 @@ namespace GUI.LS
                 //Console.WriteLine("Crossover done");
 
                 //Mutation
-                for (int i = 0; i < 32; i++)
+                for (int i = 0; i < size; i++)
                 {
                     index = 0;
+                    found = false;
                     randomNumberI = rng.Next(0, (banyakJadwal+1));
                     if (randomNumberI != banyakJadwal)
                     {
@@ -211,9 +215,21 @@ namespace GUI.LS
                         sample[i][randomNumberI].setJamSol(index);
                     }
                 }
+                for (int i = 0; i < size; i++)
+                {
+                    check.hitungKonflik(sample[i]);
+                    if (check.getJumlahKonflik() < 8)
+                    {
+                        loopOut = true;
+                    }
+                }
+                if (loopOut)
+                {
+                    break;
+                }
             }
             //Console.WriteLine("Mutation Done");
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < size; i++)
             {
                 check.hitungKonflik(sample[i]);
                 fitness[i] = maxFitness - check.getJumlahKonflik();

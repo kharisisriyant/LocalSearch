@@ -34,16 +34,16 @@ namespace LocalSearch
 
 
             //Random Restart
-            RandomRestart rr = new RandomRestart();
-            rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            //RandomRestart rr = new RandomRestart();
+            //rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Simmulated Annealing
             //SimulatedAnnealing sa = new SimulatedAnnealing();
             //sa.simulatedAnnealing(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Genetic Algorithm
-            //GeneticAlgorithm ga = new GeneticAlgorithm();
-            //listMK = ga.geneticAlgorithm(200000,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            GeneticAlgorithm ga = new GeneticAlgorithm();
+            listMK = ga.geneticAlgorithm(1000,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Initializer init = new Initializer();
             //init.Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
