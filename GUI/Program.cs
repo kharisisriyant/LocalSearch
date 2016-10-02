@@ -19,7 +19,6 @@ namespace GUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new GUIform());
-            //Application.Run(new SolutionForm());
       
         }
     }

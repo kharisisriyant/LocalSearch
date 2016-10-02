@@ -489,5 +489,13 @@ namespace GUI
         public string pilihanHari;
         public int pilihanJam;
 
+        private void SolutionForm_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void SolutionForm_FormClosed(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
