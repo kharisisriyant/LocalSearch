@@ -10,18 +10,7 @@ namespace LocalSearch
 		}
         
 		static void Main(string[] args){
-            int[] b = new int[3];
-            b[0] = 99;
-            b[1] = 55;
-            b[2] = 11;
-            int[] a = new int[b.Length];
-            for (int c = 0; c < b.Length; c++)
-            {
-                a[c] = b[c];
-                Console.WriteLine(Object.ReferenceEquals(a, b));
-                Console.WriteLine(Object.ReferenceEquals(a[c], b[c]));
-            }
-
+            
             FileParser fp = new FileParser ();
 
 			string[] jadwal = fp.getJadwal ();
