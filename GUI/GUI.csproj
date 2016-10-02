@@ -52,6 +52,16 @@
     <Compile Include="GUIform.Designer.cs">
       <DependentUpon>GUIform.cs</DependentUpon>
     </Compile>
+    <Compile Include="LS\Checker.cs" />
+    <Compile Include="LS\FileParser.cs" />
+    <Compile Include="LS\GeneticAlgorithm.cs" />
+    <Compile Include="LS\Initializer.cs" />
+    <Compile Include="LS\MataKuliah.cs" />
+    <Compile Include="LS\Others.cs" />
+    <Compile Include="LS\RandomRestart.cs" />
+    <Compile Include="LS\Ruangan.cs" />
+    <Compile Include="LS\SimulatedAnnealing.cs" />
+    <Compile Include="LS\Solver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolutionForm.cs">
@@ -75,6 +85,16 @@
     <EmbeddedResource Include="SolutionForm.resx">
       <DependentUpon>SolutionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\GUI.LS.Checker.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.FileParser.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.GeneticAlgorithm.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.Initializer.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.MataKuliah.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.Others.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.RandomRestart.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.Ruangan.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.SimulatedAnnealing.datasource" />
+    <None Include="Properties\DataSources\GUI.LS.Solver.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GUI.LS;
 
 namespace GUI
 {
@@ -38,6 +39,7 @@ namespace GUI
                         openedTestCasePath = openFileDialog1.FileName;
                         // Insert code to read the stream here.
                         fileTC.Close();
+                        FileText.Text = openedTestCasePath;
                         
                     }
                 }
@@ -61,17 +63,17 @@ namespace GUI
 
         private void hcButton_CheckedChanged(object sender, EventArgs e)
         {
-
+            AlgoChoosed = 1;
         }
 
         private void saButton_CheckedChanged(object sender, EventArgs e)
         {
-
+            AlgoChoosed = 2;
         }
 
         private void gaButton_CheckedChanged(object sender, EventArgs e)
         {
-
+            AlgoChoosed = 3;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -84,18 +86,52 @@ namespace GUI
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SolveButton_Click(object sender, EventArgs e)
         {
-            if (openedTestCasePath != null && (hcButton.Checked ==true || gaButton.Checked == true || saButton.Checked == true))
+            bool FileChoosed = false;
+            bool AlgorithmChecked = false;
+            if (openedTestCasePath != null )
             {
+                FileChoosed = true;
+            }
+            if (hcButton.Checked == true || gaButton.Checked == true || saButton.Checked == true)
+            {
+                AlgorithmChecked = true;
+            }
+            if (FileChoosed)
+            {
+                if (AlgorithmChecked)
+                {
+                    
+                    this.Visible = false;
 
-                SolutionForm S = new SolutionForm();
-                S.ShowDialog();
+                    //Solve Problem
+                    Solver sv = new Solver();
+                    sv.Solve(openedTestCasePath,AlgoChoosed);
+                    string Efektif = sv.jmlO.ToString() + " %";
+                    S = new SolutionForm(sv.listMK,sv.listR,sv.jmlK.ToString(),Efektif);
+
+                    // Calculate Conflict and Efektivity
+                    //S.jmlConflict.Text = sv.jmlK.ToString();
+                    //string Efektif = sv.jmlO.ToString() + " %";
+                    //S.jmlEfektif.Text = Efektif;                   
+                    S.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Please choose algorithm for solve problem!");
+                }
             }
             else
-            {
+            { 
                 MessageBox.Show("Please select the file first!");
             }
         }
+
+        private void FileText_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

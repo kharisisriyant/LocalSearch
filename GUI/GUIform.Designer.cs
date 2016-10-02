@@ -36,7 +36,8 @@
             this.hcButton = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SolveButton = new System.Windows.Forms.Button();
+            this.FileText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // openFileButton
@@ -44,11 +45,12 @@
             this.openFileButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.openFileButton.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ActiveBorder;
             this.openFileButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLight;
-            this.openFileButton.Font = new System.Drawing.Font("HP Simplified", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.openFileButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.openFileButton.ForeColor = System.Drawing.Color.Black;
-            this.openFileButton.Location = new System.Drawing.Point(168, 304);
+            this.openFileButton.Location = new System.Drawing.Point(119, 293);
+            this.openFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.openFileButton.Name = "openFileButton";
-            this.openFileButton.Size = new System.Drawing.Size(145, 49);
+            this.openFileButton.Size = new System.Drawing.Size(117, 35);
             this.openFileButton.TabIndex = 0;
             this.openFileButton.Text = "Open File";
             this.openFileButton.UseVisualStyleBackColor = true;
@@ -62,56 +64,62 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(188, 203);
+            this.label2.Location = new System.Drawing.Point(127, 178);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(135, 20);
+            this.label2.Size = new System.Drawing.Size(91, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Solving Algorithm:";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // radioButton1
+            // gaButton
+            // 
+            this.gaButton.AutoSize = true;
+            this.gaButton.Location = new System.Drawing.Point(225, 220);
+            this.gaButton.Margin = new System.Windows.Forms.Padding(2);
+            this.gaButton.Name = "gaButton";
+            this.gaButton.Size = new System.Drawing.Size(108, 17);
+            this.gaButton.TabIndex = 6;
+            this.gaButton.TabStop = true;
+            this.gaButton.Text = "Genetic Algorithm";
+            this.gaButton.UseVisualStyleBackColor = true;
+            this.gaButton.CheckedChanged += new System.EventHandler(this.gaButton_CheckedChanged);
+            // 
+            // saButton
+            // 
+            this.saButton.AutoSize = true;
+            this.saButton.Location = new System.Drawing.Point(225, 199);
+            this.saButton.Margin = new System.Windows.Forms.Padding(2);
+            this.saButton.Name = "saButton";
+            this.saButton.Size = new System.Drawing.Size(121, 17);
+            this.saButton.TabIndex = 5;
+            this.saButton.TabStop = true;
+            this.saButton.Text = "Simulated Annealing";
+            this.saButton.UseVisualStyleBackColor = true;
+            this.saButton.CheckedChanged += new System.EventHandler(this.saButton_CheckedChanged);
+            // 
+            // hcButton
             // 
             this.hcButton.AutoSize = true;
-            this.hcButton.Location = new System.Drawing.Point(338, 171);
-            this.hcButton.Name = "radioButton1";
-            this.hcButton.Size = new System.Drawing.Size(119, 24);
+            this.hcButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.hcButton.Location = new System.Drawing.Point(225, 178);
+            this.hcButton.Margin = new System.Windows.Forms.Padding(2);
+            this.hcButton.Name = "hcButton";
+            this.hcButton.Size = new System.Drawing.Size(81, 17);
             this.hcButton.TabIndex = 4;
             this.hcButton.TabStop = true;
             this.hcButton.Text = "Hill Climbing";
             this.hcButton.UseVisualStyleBackColor = true;
             this.hcButton.CheckedChanged += new System.EventHandler(this.hcButton_CheckedChanged);
             // 
-            // radioButton2
-            // 
-            this.saButton.AutoSize = true;
-            this.saButton.Location = new System.Drawing.Point(338, 201);
-            this.saButton.Name = "radioButton2";
-            this.saButton.Size = new System.Drawing.Size(180, 24);
-            this.saButton.TabIndex = 5;
-            this.saButton.TabStop = true;
-            this.saButton.Text = "Simulated Annealing";
-            this.saButton.UseVisualStyleBackColor = true;
-            this.hcButton.CheckedChanged += new System.EventHandler(this.saButton_CheckedChanged);
-            // 
-            // radioButton3
-            // 
-            this.gaButton.AutoSize = true;
-            this.gaButton.Location = new System.Drawing.Point(338, 231);
-            this.gaButton.Name = "radioButton3";
-            this.gaButton.Size = new System.Drawing.Size(161, 24);
-            this.gaButton.TabIndex = 6;
-            this.gaButton.TabStop = true;
-            this.gaButton.Text = "Genetic Algorithm";
-            this.gaButton.UseVisualStyleBackColor = true;
-            this.hcButton.CheckedChanged += new System.EventHandler(this.gaButton_CheckedChanged);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(250, 29);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(218, 9);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(226, 108);
+            this.label1.Size = new System.Drawing.Size(115, 55);
             this.label1.TabIndex = 7;
             this.label1.Text = "SLS";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -119,34 +127,49 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(347, 137);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(98, 90);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 20);
+            this.label3.Size = new System.Drawing.Size(379, 36);
             this.label3.TabIndex = 8;
-            this.label3.Text = "SLS";
+            this.label3.Text = "SLS is a software that can solve the scheduling problem \r\n             by applyin" +
+    "g a local search algorithm";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // button1
+            // SolveButton
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLight;
-            this.button1.Font = new System.Drawing.Font("HP Simplified", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(419, 304);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(189, 54);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Solve";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.SolveButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.SolveButton.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.SolveButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLight;
+            this.SolveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SolveButton.ForeColor = System.Drawing.Color.Black;
+            this.SolveButton.Location = new System.Drawing.Point(328, 293);
+            this.SolveButton.Margin = new System.Windows.Forms.Padding(2);
+            this.SolveButton.Name = "SolveButton";
+            this.SolveButton.Size = new System.Drawing.Size(126, 35);
+            this.SolveButton.TabIndex = 9;
+            this.SolveButton.Text = "Solve";
+            this.SolveButton.UseVisualStyleBackColor = true;
+            this.SolveButton.Click += new System.EventHandler(this.SolveButton_Click);
+            // 
+            // FileText
+            // 
+            this.FileText.AutoSize = true;
+            this.FileText.Location = new System.Drawing.Point(116, 278);
+            this.FileText.Name = "FileText";
+            this.FileText.Size = new System.Drawing.Size(85, 13);
+            this.FileText.TabIndex = 10;
+            this.FileText.Text = "No File Choosen";
+            this.FileText.Click += new System.EventHandler(this.FileText_Click);
             // 
             // GUIform
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(788, 406);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(560, 373);
+            this.Controls.Add(this.FileText);
+            this.Controls.Add(this.SolveButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.hcButton);
@@ -154,6 +177,7 @@
             this.Controls.Add(this.gaButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.openFileButton);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "GUIform";
             this.Text = "SLS | Your Reliable Problem Solving Service";
             this.ResumeLayout(false);
@@ -170,9 +194,11 @@
         private System.Windows.Forms.RadioButton gaButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
-        private string openedTestCasePath;
-
+        private System.Windows.Forms.Button SolveButton;
+        private System.Windows.Forms.Label FileText;
+        public  string openedTestCasePath;
+        public int AlgoChoosed = 1;
+        public SolutionForm S;
     }
 }
 
