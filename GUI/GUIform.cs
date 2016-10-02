@@ -9,11 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GUI.LS;
+using System.Threading;
+using System.Diagnostics;
 
 namespace GUI
 {
     public partial class GUIform : Form
     {
+
+
         public GUIform()
         {
             InitializeComponent();
@@ -102,20 +106,41 @@ namespace GUI
             {
                 if (AlgorithmChecked)
                 {
-                    
+
                     this.Visible = false;
+                    progressDialog progressDialog = new progressDialog();
+                    // Initialize the thread that will handle the background process
+                    Thread backgroundThread = new Thread(
+                        new ThreadStart(() =>
+                        {
+                            // Set the dialog to operate in indeterminate mode
+                            progressDialog.SetIndeterminate(true);
+                            //Solve Problem
+                            Solver sv = new Solver();
+                            sv.Solve(openedTestCasePath, AlgoChoosed);
 
-                    //Solve Problem
-                    Solver sv = new Solver();
-                    sv.Solve(openedTestCasePath,AlgoChoosed);
-                    string Efektif = sv.jmlO.ToString() + " %";
-                    S = new SolutionForm(sv.listMK,sv.listR,sv.jmlK.ToString(),Efektif);
+                   
 
+                            // Close the dialog if it hasn't been already
+
+                            progressDialog.BeginInvoke(new Action(() => progressDialog.Close()));
+
+                            string Efektif = sv.jmlO.ToString("F") + " %";
+                            S = new SolutionForm(sv.listMK, sv.listR, sv.jmlK.ToString(), Efektif);
+
+                            S.ShowDialog();
+                            S.FormClosed += new FormClosedEventHandler(SolutionClosed);
+                            Process.GetCurrentProcess().Kill();
+
+                        }
+                    ));
+                    backgroundThread.Start();
+                    // Open the dialog
+                    progressDialog.ShowDialog();
                     // Calculate Conflict and Efektivity
                     //S.jmlConflict.Text = sv.jmlK.ToString();
                     //string Efektif = sv.jmlO.ToString() + " %";
-                    //S.jmlEfektif.Text = Efektif;                   
-                    S.ShowDialog();
+                    //S.jmlEfektif.Text = Efektif; 
                 }
                 else
                 {
@@ -124,8 +149,14 @@ namespace GUI
             }
             else
             { 
-                MessageBox.Show("Please select the file first!");
+                MessageBox.Show("Please select the file first!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        void SolutionClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.ExitThread();
+            Process.GetCurrentProcess().Kill();
         }
 
         private void FileText_Click(object sender, EventArgs e)
@@ -133,5 +164,8 @@ namespace GUI
 
         }
 
+        private void GUIform_Load(object sender, EventArgs e)
+        {
+        }
     }
 }

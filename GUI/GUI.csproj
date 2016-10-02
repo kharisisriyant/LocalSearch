@@ -63,6 +63,12 @@
     <Compile Include="LS\SimulatedAnnealing.cs" />
     <Compile Include="LS\Solver.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="progressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="progressDialog.Designer.cs">
+      <DependentUpon>progressDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolutionForm.cs">
       <SubType>Form</SubType>
@@ -72,6 +78,9 @@
     </Compile>
     <EmbeddedResource Include="GUIform.resx">
       <DependentUpon>GUIform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="progressDialog.resx">
+      <DependentUpon>progressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
