@@ -52,9 +52,27 @@ namespace LocalSearch
                             ++b;
                         }
                     }
+                    int jamke = LMK[a].getJamSol() - R[b].getjamMulai();
+                    int z = 0;
+                    int[] hariAvail = R[b].getHariAvailable();
+                    for(int k = 0; k < R[b].getHariAvailable().Length;++k)
+                    {
+                        hariAvail[k] = R[b].getHariAVailable(k);
+                    }
+                    while (z < R[b].getHariAvailable().Length)
+                    {
+                        if(LMK[a].getHariSol() == hariAvail[z])
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            ++z;
+                        }
+                    }
                     for(int x = 0; x < LMK[a].getSks(); ++x) //iterasi untuk mengisi jam sesuai sks
                     {
-                        R[b].terisi[LMK[a].getHariSol(), (LMK[a].getJamSol())+ x] = true;
+                        R[b].terisi[z, jamke + x] = true;
                     }
                     ++a;
                 }
@@ -77,6 +95,7 @@ namespace LocalSearch
                             }
                         }
                     }
+                    ++i;
                 }
             }
             double efektif = (double) ntrue / (double) (ntrue + nfalse);

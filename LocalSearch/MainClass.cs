@@ -68,7 +68,7 @@ namespace LocalSearch
             }
             Console.WriteLine("Konflik ada " + ch.getJumlahKonflik());
             Others ot = new Others();
-            Console.WriteLine("Efektif = " + ot.hitungEfektif(listMK, listR) + " %");
+            Console.WriteLine("Efektif = " + (ot.hitungEfektif(listMK, listR)*100) + " %");
             Console.Read();
         }
 	}
