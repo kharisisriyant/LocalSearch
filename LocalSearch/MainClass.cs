@@ -11,7 +11,7 @@ namespace LocalSearch
         
 		static void Main(string[] args){
             
-            FileParser fp = new FileParser ();
+			FileParser fp = new FileParser ("G:\Testcase1.txt");
 
 			string[] jadwal = fp.getJadwal ();
 
