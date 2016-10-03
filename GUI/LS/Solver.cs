@@ -51,7 +51,7 @@ namespace GUI.LS
             if (AlgoChoosed == 3)
             {
                 GeneticAlgorithm ga = new GeneticAlgorithm();
-                listMK = ga.geneticAlgorithm(1000,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+                listMK = ga.geneticAlgorithm(500,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
             }
 
             //Menjalankan perhitungan konflik dan efektifitas

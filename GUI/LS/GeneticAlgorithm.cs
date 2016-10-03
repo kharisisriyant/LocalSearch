@@ -32,10 +32,12 @@ namespace GUI.LS
         {
             List<List<MataKuliah>> sample = new List<List<MataKuliah>>();
             List<List<MataKuliah>> temp = new List<List<MataKuliah>>();
+            List<MataKuliah> tempSolution = new List<MataKuliah>();
             MataKuliah[] listTemp = new MataKuliah[banyakJadwal+1];
             Random rng = new Random(Guid.NewGuid().GetHashCode());
             Initializer init = new Initializer();
             int size = 1024;
+            int minConflict = int.MaxValue;
             int[] fitness = new int[size];
             float[] chanceThreshold = new float[size];
             int maxFitness = (banyakJadwal - 1) * (banyakJadwal) / 2;
@@ -45,7 +47,6 @@ namespace GUI.LS
             int index = 0;
             Checker check = new Checker();
             Boolean found = false;
-            Boolean loopOut = false;
             int minTime = 0;
             int maxTime = 0;
             IEnumerable<int> possibleDay;
@@ -218,14 +219,11 @@ namespace GUI.LS
                 for (int i = 0; i < size; i++)
                 {
                     check.hitungKonflik(sample[i]);
-                    if (check.getJumlahKonflik() < 8)
+                    if (check.getJumlahKonflik() < minConflict)
                     {
-                        loopOut = true;
+                        minConflict = check.getJumlahKonflik();
+                        tempSolution = deepClone(sample[i], banyakJadwal);
                     }
-                }
-                if (loopOut)
-                {
-                    break;
                 }
             }
             //Console.WriteLine("Mutation Done");
@@ -234,7 +232,14 @@ namespace GUI.LS
                 check.hitungKonflik(sample[i]);
                 fitness[i] = maxFitness - check.getJumlahKonflik();
             }
-            return (sample[Array.IndexOf(fitness, fitness.Max())]);
+            if ((maxFitness - minConflict) > fitness.Max())
+            {
+                return tempSolution;
+            }
+            else
+            {
+                return (sample[Array.IndexOf(fitness, fitness.Max())]);
+            }
         }
     }
 }
