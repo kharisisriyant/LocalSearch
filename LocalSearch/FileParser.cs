@@ -27,10 +27,19 @@ namespace LocalSearch
                 i++;
             }
             i++;
+			int checkpoint = i;
 
-            listRuangan = new string[10];
-            int jumlahRuangan = 0;
-            while (lines[i] != "")
+			int jumlahRuangan = 0;
+			while (lines[i] != "")
+			{
+				jumlahRuangan++;
+				i++;
+			}
+				
+			i = checkpoint; 
+			listRuangan = new string[jumlahRuangan];
+			jumlahRuangan = 0;
+			while (lines[i] != "")
             {
                 listRuangan[jumlahRuangan] = lines[i];
                 i++;
@@ -44,8 +53,19 @@ namespace LocalSearch
             }
             i++;
 
-            listJadwal = new string[50];
-            int jumlahJadwal = 0;
+			checkpoint = i;
+
+			int jumlahJadwal = 0;
+			while (i < lines.Length && lines[i] != "")
+			{
+				i++;
+				jumlahJadwal++;
+			}
+
+			i = checkpoint;
+
+			listJadwal = new string[jumlahJadwal];
+            jumlahJadwal = 0;
             while (i < lines.Length && lines[i] != "")
             {
                 listJadwal[jumlahJadwal] = lines[i];
