@@ -109,7 +109,7 @@ namespace GUI.LS
                                 ++ntrue;
                             }
                         }
-                    }
+                    } 
                     ++i;
                 }
             }

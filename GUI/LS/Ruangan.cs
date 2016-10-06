@@ -83,6 +83,8 @@ namespace GUI.LS
             return hariAvailable[i];
         }
 
+        
+
 		private string namaRuangan;
 		private int[] jamAvailable; //jamAvailable[0] awal jamAvailable[1] akhir 
 		private int[] hariAvailable;

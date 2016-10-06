@@ -52,7 +52,7 @@ namespace GUI
         {
             // Deklarasi Jumlah kolom dan baris
             tabel.ColumnCount = 5;
-            tabel.RowCount = 11;
+            tabel.RowCount = Ruangan.jamMaks-Ruangan.jamMin ;
             tabel.ColumnHeadersVisible = true;
             tabel.RowHeadersVisible = true;
 
@@ -73,18 +73,15 @@ namespace GUI
             tabel.Columns[4].HeaderCell.Value = "Jumat";
 
             //Set header baris
-            tabel.Rows[0].HeaderCell.Value = "07.00";
-            tabel.Rows[1].HeaderCell.Value = "08.00";
-            tabel.Rows[2].HeaderCell.Value = "09.00";
-            tabel.Rows[3].HeaderCell.Value = "10.00";
-            tabel.Rows[4].HeaderCell.Value = "11.00";
-            tabel.Rows[5].HeaderCell.Value = "12.00";
-            tabel.Rows[6].HeaderCell.Value = "13.00";
-            tabel.Rows[7].HeaderCell.Value = "14.00";
-            tabel.Rows[8].HeaderCell.Value = "15.00";
-            tabel.Rows[9].HeaderCell.Value = "16.00";
-            tabel.Rows[10].HeaderCell.Value = "17.00";
-            
+            int n = Ruangan.jamMin;
+            for (int i = 0; i < tabel.RowCount; i++)
+            {
+                if (n < 10)
+                    tabel.Rows[i].HeaderCell.Value = "0" + n + ".00";
+                else
+                    tabel.Rows[i].HeaderCell.Value = n + ".00";
+                n++;
+            }
         }
 
         //Return Index Column berdasarkan hari matkul
@@ -168,10 +165,10 @@ namespace GUI
         {
 
         }
-
+        
         private void label3_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void jmlConflict_Click(object sender, EventArgs e)
@@ -183,7 +180,19 @@ namespace GUI
         {
 
         }
-
+        public bool isMulti(string namaMatkul)
+        {
+            int count = 0;
+            foreach(MataKuliah item in listMK)
+            {
+                if (namaMatkul == item.getNamaMatKul())
+                    count++;
+            }
+            if (count <= 1)
+                return false;
+            else
+                return true;
+        }
         private void optionRuang_SelectedIndexChanged(object sender, EventArgs e)
         {
             pilMatkul.SelectedItem = null;
@@ -220,8 +229,12 @@ namespace GUI
             if (index != -1)
             {
                 initpilRuangan();
-                //fillTabel(optionRuang.Items[index].ToString());
             }
+        }
+
+        private void pilMatkul_DrawItem(object sender, DrawItemEventArgs e)
+        {
+
         }
 
         private void pilRuangan_SelectedIndexChanged(object sender, EventArgs e)
@@ -238,7 +251,7 @@ namespace GUI
                 initpilHari();
             }
         }
-
+        
         private void pilHari_SelectedIndexChanged(object sender, EventArgs e)
         {
             pilJam.SelectedItem = null;
@@ -263,10 +276,10 @@ namespace GUI
         {
             foreach(MataKuliah MK in listMK)
             {
-                if (MK.getNamaMatKul()==pilihanMatkul)
+                if (MK.getNamaMatKul()==splitNama(pilihanMatkul)&& MK.getHariSol()==DaytoInt(splitHari(pilihanMatkul)) && MK.getJamSol()==splitJam(pilihanMatkul))
                 {
                     MK.setRuanganSol(pilihanRuanganAvail);
-                    MK.setHariSol(InttoDay(pilihanHari));
+                    MK.setHariSol(DaytoInt(pilihanHari));
                     MK.setJamSol(pilihanJam);
                 }
             }
@@ -309,7 +322,7 @@ namespace GUI
             else
                 MessageBox.Show("Please choose course to move the schedule!");
         }
-
+      
         public void initpilMatkul()
         {
             
@@ -318,17 +331,73 @@ namespace GUI
                 if (item.getRuanganSol() == pilihanRuangan)
                 {
                     string namaMatkul = item.getNamaMatKul();
+                    namaMatkul = namaMatkul + "(" + InttoDay(item.getHariSol()) + ":" + item.getJamSol() + ")";
                     pilMatkul.Items.Add(namaMatkul);
                 }
             }
         }
+        public string splitNama(string pilihanMatkul)
+        {
+            string nama ="";
+            foreach(char a in pilihanMatkul)
+            {
+                if (a != '(')
+                    nama += a;
+                else
+                    break;
+            }
+            return nama;
+        }
 
+        public string splitHari(string pilihanMatkul)
+        {
+            string hari = "";
+            int n = 0;
+            foreach (char a in pilihanMatkul)
+            {
+                if (a == '(')
+                {
+                    for(int i= n + 1; i<pilihanMatkul.Length;i++)
+                    {
+                        if (pilihanMatkul[i] != ':')
+                            hari += pilihanMatkul[i];
+                        else
+                            break;
+                    }
+
+                }
+                n++;
+            }
+            return hari;
+        }
+        public int splitJam(string pilihanMatkul)
+        {
+            string jams = "";
+            int n = 0;
+            foreach (char a in pilihanMatkul)
+            {
+                if (a == ':')
+                {
+                    for (int i = n + 1; i < pilihanMatkul.Length; i++)
+                    {
+                        if (pilihanMatkul[i] != ')')
+                            jams += pilihanMatkul[i];
+                        else
+                            break;
+                    }
+                }
+                n++;
+            }
+            int jam = Int32.Parse(jams);
+            return jam;
+        }
         public void initpilRuangan()
         {
+            
             MataKuliah pilihan = new MataKuliah();
             foreach(MataKuliah item in listMK)
             {
-                if (pilihanMatkul == item.getNamaMatKul())
+                if (splitNama(pilihanMatkul) == item.getNamaMatKul() && splitHari(pilihanMatkul) == InttoDay(item.getHariSol()) && splitJam(pilihanMatkul) == item.getJamSol())
                 {
                     pilihan = item;
                 }
@@ -338,8 +407,19 @@ namespace GUI
             {
                 foreach(Ruangan item in listR)
                 {
+                    bool found = false;
                     string pilRuangDom = item.getNamaRuangan();
-                    pilRuangan.Items.Add(pilRuangDom);
+                    foreach (string name in pilRuangan.Items)
+                    {
+                        if (name.Equals(pilRuangDom, StringComparison.Ordinal))
+                        {
+                            found = true;
+                        }
+                    }
+                    if (!found)
+                    {
+                         pilRuangan.Items.Add(pilRuangDom);
+                    }
                 }
             }
             else
@@ -348,32 +428,32 @@ namespace GUI
                 pilRuangan.Items.Add(pilRuangDom);
             }
         }
-
+        
         public void initpilHari()
         {
             MataKuliah pilihanMK = new MataKuliah();
             foreach (MataKuliah item in listMK)
             {
-                if (pilihanMatkul == item.getNamaMatKul())
+                if (splitNama(pilihanMatkul) == item.getNamaMatKul() && splitHari(pilihanMatkul) == InttoDay(item.getHariSol()) && splitJam(pilihanMatkul) == item.getJamSol())
                 {
                     pilihanMK = item;
                 }
 
             }
-
-            Ruangan pilihanR = new Ruangan();
+            List<int> HariRuangan = new List<int>();
             foreach (Ruangan item in listR)
             {
                 if (pilihanRuanganAvail == item.getNamaRuangan())
                 {
-                    pilihanR = item;
+                    foreach(int hariR in item.getHariAvailable())
+                         HariRuangan.Add(hariR);
                 }
             }
 
             List<int> HariAvail = new List<int>();
             foreach (int hariM in pilihanMK.getHariDom())
             {
-               foreach (int hariR in pilihanR.getHariAvailable())
+               foreach (int hariR in HariRuangan)
                {
                   if (hariM == hariR)
                   {
@@ -393,7 +473,7 @@ namespace GUI
             MataKuliah pilihanMK = new MataKuliah();
             foreach (MataKuliah item in listMK)
             {
-                if (pilihanMatkul == item.getNamaMatKul())
+                if (splitNama(pilihanMatkul) == item.getNamaMatKul() && splitHari(pilihanMatkul) == InttoDay(item.getHariSol()) && splitJam(pilihanMatkul) == item.getJamSol())
                 {
                     pilihanMK = item;
                 }
@@ -403,9 +483,15 @@ namespace GUI
             Ruangan pilihanR = new Ruangan();
             foreach (Ruangan item in listR)
             {
-                if (pilihanRuanganAvail == item.getNamaRuangan())
+                if (pilihanRuanganAvail == item.getNamaRuangan() )
                 {
-                    pilihanR = item;
+                    foreach(int hariR in item.getHariAvailable())
+                    {
+                        if(DaytoInt(pilihanHari) == hariR)
+                        {
+                            pilihanR = item;
+                        }
+                    }
                 }
             }
 
@@ -432,7 +518,7 @@ namespace GUI
                  {
                      foreach (MataKuliah MatKonflik in listMK)
                      {
-                         if (MatKonflik.getRuanganSol() == pilihanRuanganAvail && DaytoInt(MatKonflik.getHariSol()) == pilihanHari && MatKonflik.getNamaMatKul()!=pilihanMatkul)
+                         if (MatKonflik.getRuanganSol() == pilihanRuanganAvail && InttoDay(MatKonflik.getHariSol()) == pilihanHari && MatKonflik.getNamaMatKul()!=pilihanMatkul)
                          {
                              int JamKonflik = MatKonflik.getJamSol();
                              for (int k=0 ; k < MatKonflik.getSks(); k++)
@@ -447,22 +533,19 @@ namespace GUI
                  }
                 if(batasanAvail)
                  {
-                    if(batasanA>=10)
-                     pilJam.Items.Add(batasanA);
-                    else
-                     pilJam.Items.Add(batasanA);
-                }
+                    pilJam.Items.Add(batasanA);
+                 }
                  batasanA = batasanA+1;
             }
            
         }
 
-        public string DaytoInt(int day)
+        public string InttoDay(int day)
         {
           return tabel.Columns[day - 1].HeaderCell.Value.ToString();
         }
 
-        public int InttoDay(string day)
+        public int DaytoInt(string day)
         {
             if (day == "Senin")
                 return 1;
