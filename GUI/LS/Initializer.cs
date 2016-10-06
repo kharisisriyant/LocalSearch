@@ -61,6 +61,22 @@ namespace GUI.LS
                     //Calculate Possible Day
                     possibleDay = listMK[i].getHariDom().Intersect(listR[temp+randomNumber].getHariAvailable());
 
+                    //Calculate Possible Time
+                    if (listR[temp + randomNumber].getjamMulai() > listMK[i].getJamDomAwal())
+                    {
+                        minTime = listR[temp + randomNumber].getjamMulai();
+                    }
+                    else {
+                        minTime = listMK[i].getJamDomAwal();
+                    }
+                    if (listR[temp + randomNumber].getjamAkhir() < listMK[i].getJamDomAkhir())
+                    {
+                        maxTime = listR[temp + randomNumber].getjamAkhir();
+                    }
+                    else {
+                        maxTime = listMK[i].getJamDomAkhir();
+                    }
+
                     //Ulangi kalkulasi bila tidak memungkinkan
                     while ((possibleDay.ToArray().Length < 1) || ((minTime + listMK[i].getSks()) > maxTime))
                     {
@@ -81,22 +97,6 @@ namespace GUI.LS
                         else {
                             maxTime = listMK[i].getJamDomAkhir();
                         }
-                    }
-
-                    //Calculate Possible Time (untuk tidak terjadi reassign)
-                    if (listR[temp + randomNumber].getjamMulai() > listMK[i].getJamDomAwal())
-                    {
-                        minTime = listR[temp + randomNumber].getjamMulai();
-                    }
-                    else {
-                        minTime = listMK[i].getJamDomAwal();
-                    }
-                    if (listR[temp + randomNumber].getjamAkhir() < listMK[i].getJamDomAkhir())
-                    {
-                        maxTime = listR[temp + randomNumber].getjamAkhir();
-                    }
-                    else {
-                        maxTime = listMK[i].getJamDomAkhir();
                     }
                 }
                 //If there's room restriction
