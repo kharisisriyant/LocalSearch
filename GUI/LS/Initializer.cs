@@ -183,9 +183,9 @@ namespace GUI.LS
                     }
                 }
                 temp = rng.Next(0, possibleDay.ToArray().Length);
-                listMK[i].setHariSol(possibleDay.ElementAt(temp));
+                listMK[i].setHariSol(possibleDay.ElementAt(temp + randomNumber));
                 temp = rng.Next(minTime, (maxTime + 1 - listMK[i].getSks()));
-                listMK[i].setJamSol(temp);
+                listMK[i].setJamSol(temp + randomNumber);
                 //Console.WriteLine("Jam Mulai " + listMK[i].getJamSol());
                 //Console.WriteLine("Jam Akhir " + (listMK[i].getSks() + listMK[i].getJamSol()));
                 //Console.WriteLine("Hari " + listMK[i].getHariSol());

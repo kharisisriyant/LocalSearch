@@ -38,7 +38,7 @@ namespace GUI.LS
                 konflikLama = ch.getJumlahKonflik();
                 idxMax = ch.getIndexMaxMKKonflik();
                 tempLMK = cloneListMK(LMK);
-                newAssign(idxMax, LMK, LR, banyakjadwal, banyakruangan); //randomize value dari variabel konflik
+                newAssign(idxMax, LMK, LR, banyakjadwal, banyakruangan, varR); //randomize value dari variabel konflik
                 ch.hitungKonflik(LMK);
                 konflikBaru = ch.getJumlahKonflik();
                 deltaKonflik = konflikBaru - konflikLama;
@@ -94,7 +94,7 @@ namespace GUI.LS
         }
 
 
-        public void newAssign(int index, List<MataKuliah> listMK, List<Ruangan> listR, int banyakjadwal, int banyakRuangan)
+        public void newAssign(int index, List<MataKuliah> listMK, List<Ruangan> listR, int banyakjadwal, int banyakRuangan, VariasiRuangan[] varR)
         {
             Random rng = new Random();
             int minTime = 0;
@@ -103,6 +103,9 @@ namespace GUI.LS
 
             int temp = 0;
             bool found = false;
+            int varTemp = 0;
+            int randomNumber;
+
             Console.WriteLine("Ubah Jadwal " + listMK[index].getNamaMatKul());
 
             //If no room restriction
@@ -121,23 +124,62 @@ namespace GUI.LS
                     }
                 }
 
+                //Pertimbangkan variasi kemungkinan
+                found = false;
+                while (!found)
+                {
+                    if (varR[varTemp].nama.Equals(listR[temp].getNamaRuangan(), StringComparison.Ordinal))
+                    {
+                        found = true;
+                    }
+                    else
+                    {
+                        varTemp++;
+                    }
+                }
+
+                //Generate offset index dari akses ruangan karena adanya variasi
+                randomNumber = rng.Next(0, varR[varTemp].variasi);
+
                 //Calculate Possible Day
-                possibleDay = listMK[index].getHariDom().Intersect(listR[temp].getHariAvailable());
+                possibleDay = listMK[index].getHariDom().Intersect(listR[temp + randomNumber].getHariAvailable());
 
                 //Calculate Possible Time
-                if (listR[temp].getjamMulai() > listMK[index].getJamDomAwal())
+                if (listR[temp + randomNumber].getjamMulai() > listMK[index].getJamDomAwal())
                 {
-                    minTime = listR[temp].getjamMulai();
+                    minTime = listR[temp + randomNumber].getjamMulai();
                 }
                 else {
                     minTime = listMK[index].getJamDomAwal();
                 }
-                if (listR[temp].getjamAkhir() < listMK[index].getJamDomAkhir())
+                if (listR[temp + randomNumber].getjamAkhir() < listMK[index].getJamDomAkhir())
                 {
-                    maxTime = listR[temp].getjamAkhir();
+                    maxTime = listR[temp + randomNumber].getjamAkhir();
                 }
                 else {
                     maxTime = listMK[index].getJamDomAkhir();
+                }
+
+                //Ulangi kalkulasi bila tidak memungkinkan
+                while ((possibleDay.ToArray().Length < 1) || ((minTime + listMK[index].getSks()) > maxTime))
+                {
+                    randomNumber = rng.Next(0, varR[varTemp].variasi);
+                    possibleDay = listMK[index].getHariDom().Intersect(listR[temp + randomNumber].getHariAvailable());
+                    //Calculate Possible Time
+                    if (listR[temp + randomNumber].getjamMulai() > listMK[index].getJamDomAwal())
+                    {
+                        minTime = listR[temp + randomNumber].getjamMulai();
+                    }
+                    else {
+                        minTime = listMK[index].getJamDomAwal();
+                    }
+                    if (listR[temp + randomNumber].getjamAkhir() < listMK[index].getJamDomAkhir())
+                    {
+                        maxTime = listR[temp + randomNumber].getjamAkhir();
+                    }
+                    else {
+                        maxTime = listMK[index].getJamDomAkhir();
+                    }
                 }
             }
             //If there's room restriction
@@ -145,20 +187,38 @@ namespace GUI.LS
                 temp = rng.Next(0, banyakRuangan);
                 listMK[index].setRuanganSol(listR[temp].getNamaRuangan());
                 Console.WriteLine("Assigned to room " + listMK[index].getRuanganSol());
+
+                //Pertimbangkan variasi kemungkinan
+                found = false;
+                while (!found)
+                {
+                    if (varR[varTemp].nama.Equals(listR[temp].getNamaRuangan(), StringComparison.Ordinal))
+                    {
+                        found = true;
+                    }
+                    else
+                    {
+                        varTemp++;
+                    }
+                }
+
+                //Generate offset index dari akses ruangan karena adanya variasi
+                randomNumber = rng.Next(0, varR[varTemp].variasi);
+
                 //Calculate Possible Day
-                possibleDay = listMK[index].getHariDom().Intersect(listR[temp].getHariAvailable());
+                possibleDay = listMK[index].getHariDom().Intersect(listR[temp + randomNumber].getHariAvailable());
 
                 //Calculate Possible Time
-                if (listR[temp].getjamMulai() > listMK[index].getJamDomAwal())
+                if (listR[temp + randomNumber].getjamMulai() > listMK[index].getJamDomAwal())
                 {
-                    minTime = listR[temp].getjamMulai();
+                    minTime = listR[temp + randomNumber].getjamMulai();
                 }
                 else {
                     minTime = listMK[index].getJamDomAwal();
                 }
-                if (listR[temp].getjamAkhir() < listMK[index].getJamDomAkhir())
+                if (listR[temp + randomNumber].getjamAkhir() < listMK[index].getJamDomAkhir())
                 {
-                    maxTime = listR[temp].getjamAkhir();
+                    maxTime = listR[temp + randomNumber].getjamAkhir();
                 }
                 else {
                     maxTime = listMK[index].getJamDomAkhir();
@@ -169,17 +229,34 @@ namespace GUI.LS
                 {
                     temp = rng.Next(0, banyakRuangan);
                     listMK[index].setRuanganSol(listR[temp].getNamaRuangan());
-                    possibleDay = listMK[index].getHariDom().Intersect(listR[temp].getHariAvailable());
-                    if (listR[temp].getjamMulai() > listMK[index].getJamDomAwal())
+                    //Pertimbangkan variasi kemungkinan
+                    found = false;
+                    while (!found)
                     {
-                        minTime = listR[temp].getjamMulai();
+                        if (varR[varTemp].nama.Equals(listR[temp].getNamaRuangan(), StringComparison.Ordinal))
+                        {
+                            found = true;
+                        }
+                        else
+                        {
+                            varTemp++;
+                        }
+                    }
+
+                    //Generate offset index dari akses ruangan karena adanya variasi
+                    randomNumber = rng.Next(0, varR[varTemp].variasi);
+
+                    possibleDay = listMK[index].getHariDom().Intersect(listR[temp + randomNumber].getHariAvailable());
+                    if (listR[temp + randomNumber].getjamMulai() > listMK[index].getJamDomAwal())
+                    {
+                        minTime = listR[temp + randomNumber].getjamMulai();
                     }
                     else {
                         minTime = listMK[index].getJamDomAwal();
                     }
-                    if (listR[temp].getjamAkhir() < listMK[index].getJamDomAkhir())
+                    if (listR[temp + randomNumber].getjamAkhir() < listMK[index].getJamDomAkhir())
                     {
-                        maxTime = listR[temp].getjamAkhir();
+                        maxTime = listR[temp + randomNumber].getjamAkhir();
                     }
                     else {
                         maxTime = listMK[index].getJamDomAkhir();
@@ -187,9 +264,9 @@ namespace GUI.LS
                 }
             }
             temp = rng.Next(0, possibleDay.ToArray().Length);
-            listMK[index].setHariSol(possibleDay.ElementAt(temp));
+            listMK[index].setHariSol(possibleDay.ElementAt(temp + randomNumber));
             temp = rng.Next(minTime, (maxTime + 1 - listMK[index].getSks()));
-            listMK[index].setJamSol(temp);
+            listMK[index].setJamSol(temp + randomNumber);
             Console.WriteLine("Jam Mulai " + listMK[index].getJamSol());
             Console.WriteLine("Jam Akhir " + (listMK[index].getSks() + listMK[index].getJamSol()));
             Console.WriteLine("Hari " + listMK[index].getHariSol());

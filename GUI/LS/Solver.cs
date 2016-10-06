@@ -24,9 +24,9 @@ namespace GUI.LS
 
             //Isi listMK
             listMK = new List<MataKuliah>();
-            for (int k = 0; i < fp.getBanyakJadwal(); i++)
+            for (int k = 0; k < fp.getBanyakJadwal(); k++)
             {
-                MataKuliah mk = new MataKuliah(jadwal[i]);
+                MataKuliah mk = new MataKuliah(jadwal[k]);
                 listMK.Add(mk);
             }
 
@@ -34,9 +34,9 @@ namespace GUI.LS
 
             //Isi ListR
             listR = new List<Ruangan>();
-            for (int k = 0; i < fp.getBanyakRuangan(); i++)
+            for (int k = 0; k < fp.getBanyakRuangan(); k++)
             {
-                Ruangan r = new Ruangan(rrr[i]);
+                Ruangan r = new Ruangan(rrr[k]);
                 listR.Add(r);
             }
 
