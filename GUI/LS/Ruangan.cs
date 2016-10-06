@@ -42,6 +42,15 @@ namespace GUI.LS
                 }
             }
 
+            if(jamAvailable[1] > jamMaks)
+            {
+                jamMaks = jamAvailable[1];
+            }
+            if(jamAvailable[0] < jamMin)
+            {
+                jamMin = jamAvailable[0];
+            }
+
             Console.WriteLine ("{0}", namaRuangan);
 			Console.WriteLine ("{0}", jamAvailable[0]);
 			Console.WriteLine ("{0}", jamAvailable[1]);
@@ -78,6 +87,8 @@ namespace GUI.LS
 		private int[] jamAvailable; //jamAvailable[0] awal jamAvailable[1] akhir 
 		private int[] hariAvailable;
         public bool[,] terisi;
+        public static int jamMaks = 0;
+        public static int jamMin = 23;
 		//notes: jam sama hari mau string atau mau int???
 	}
 }
