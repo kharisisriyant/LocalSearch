@@ -8,10 +8,15 @@ namespace LocalSearch
 		public MainClass ()
 		{
 		}
-        
-		static void Main(string[] args){
+        static public List<Ruangan> sortListRuangan(List<Ruangan> LMK)
+        {
+            List<Ruangan> tmp = LMK.OrderBy(o => o.getNamaRuangan()).ToList();
+            tmp.ForEach(Console.WriteLine);
+            return tmp;
+        }
+        static void Main(string[] args){
             
-			FileParser fp = new FileParser ("D:/IF/Semester 5/AI/Spesifikasi/Testcase.txt");
+			FileParser fp = new FileParser ();
 
 			string[] jadwal = fp.getJadwal ();
 
@@ -23,27 +28,30 @@ namespace LocalSearch
 				MataKuliah mk = new MataKuliah (jadwal [i]);
 				listMK.Add (mk);
 			}
-								
 
-			string[] rrr= fp.getRuangan ();
+
+
+
+        string[] rrr= fp.getRuangan ();
 			List<Ruangan> listR = new List<Ruangan>();
 			for (int i = 0; i < fp.getBanyakRuangan(); i++) {
 				Ruangan r = new Ruangan (rrr[i]);
 				listR.Add (r);
 			}
 
+            listR = sortListRuangan(listR);
 
             //Random Restart
-            //RandomRestart rr = new RandomRestart();
-            //rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            RandomRestart rr = new RandomRestart();
+            rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Simmulated Annealing
             //SimulatedAnnealing sa = new SimulatedAnnealing();
             //sa.simulatedAnnealing(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Genetic Algorithm
-            GeneticAlgorithm ga = new GeneticAlgorithm();
-            listMK = ga.geneticAlgorithm(1000,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+            //GeneticAlgorithm ga = new GeneticAlgorithm();
+            //listMK = ga.geneticAlgorithm(1000,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
 
             //Initializer init = new Initializer();
             //init.Initialize(listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
@@ -69,6 +77,10 @@ namespace LocalSearch
             Console.WriteLine("Konflik ada " + ch.getJumlahKonflik());
             Others ot = new Others();
             Console.WriteLine("Efektif = " + (ot.hitungEfektif(listMK, listR)*100) + " %");
+            foreach(Ruangan R in listR)
+            {
+                Console.WriteLine(R.getNamaRuangan());
+            }
             Console.Read();
         }
 	}

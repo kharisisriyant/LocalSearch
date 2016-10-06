@@ -45,7 +45,22 @@ namespace LocalSearch
                     {
                         if (LMK[a].getRuanganSol() == R[b].getNamaRuangan())
                         {
-                            break;
+                            int aa = 0;
+                            bool found = false;
+                            while (aa < R[b].getHariAvailable().Length && !found)
+                            {
+                                if (LMK[a].getHariSol() == R[b].getHariAvailable()[aa])
+                                { //cari apakah hari ada di ruangan itu
+                                    found = true;
+                                }
+                                else {
+                                    aa++;
+                                }
+                            }
+                            if(found)        
+                                break;
+                            else
+                                ++b;
                         }
                         else
                         {
