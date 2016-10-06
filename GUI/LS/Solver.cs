@@ -39,7 +39,7 @@ namespace GUI.LS
                 Ruangan r = new Ruangan(rrr[k]);
                 listR.Add(r);
             }
-
+            listR = sortListRuangan(listR);
             variasiRuangan = new VariasiRuangan[fp.getBanyakRuangan()];
             while (i < fp.getBanyakRuangan())
             {
@@ -61,7 +61,7 @@ namespace GUI.LS
 
             //Cek Algo yang dipakai
             if (AlgoChoosed == 1)
-            { 
+            {
                 RandomRestart rr = new RandomRestart();
                 rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan(), variasiRuangan);
             }
@@ -73,7 +73,7 @@ namespace GUI.LS
             if (AlgoChoosed == 3)
             {
                 GeneticAlgorithm ga = new GeneticAlgorithm();
-                listMK = ga.geneticAlgorithm(500,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan(), variasiRuangan);
+                listMK = ga.geneticAlgorithm(500, listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan(), variasiRuangan);
             }
 
             //Menjalankan perhitungan konflik dan efektifitas
@@ -82,8 +82,15 @@ namespace GUI.LS
             ch.hitungKonflik(listMK);
 
             jmlK = ch.getJumlahKonflik();
-            jmlO = ot.hitungEfektif(listMK, listR)*100;
+            jmlO = ot.hitungEfektif(listMK, listR) * 100;
         }
+
+        public List<Ruangan> sortListRuangan(List<Ruangan> LMK){
+            List<Ruangan> tmp = LMK.OrderBy(o => o.getNamaRuangan()).ToList();
+            tmp.ForEach(Console.WriteLine);
+            return tmp;
+        }
+
         public int jmlK;
         public double jmlO;
         public List<MataKuliah> listMK;

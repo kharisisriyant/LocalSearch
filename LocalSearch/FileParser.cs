@@ -4,13 +4,14 @@ namespace LocalSearch
 {
 	public class FileParser
 	{
-        public FileParser(string path)
+        public FileParser()
         {
             //Baca file
             //string[] lines = System.IO.File.ReadAllLines(@"D:\IF\Semester 5\AI\Spesifikasi\Testcase.txt");
             //string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Joshua\Desktop\Tubes 1 AI scheduling\LocalSearch\LocalSearch\Testcase.txt");
             // string[] lines = System.IO.File.ReadAllLines(@"G:\Testcase.txt");
-            string[] lines = System.IO.File.ReadAllLines(@path);
+            string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Albert\Desktop\ITB\Semester 5\AI\LocalSearch\LocalSearch\Testcase.txt");
+            //string[] lines = System.IO.File.ReadAllLines(@path);
             //string[] lines = System.IO.File.ReadAllLines(@"G:\Testcase.txt");
             int i = 0;
             while (i < lines.Length)
