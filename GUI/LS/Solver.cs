@@ -15,13 +15,16 @@ namespace GUI.LS
 
         public void Solve(string filepath, int AlgoChoosed)
         {
+            int i = 0;
+            int j = 0;
+            VariasiRuangan[] variasiRuangan;
             FileParser fp = new FileParser(filepath);
 
             string[] jadwal = fp.getJadwal();
 
             //Isi listMK
             listMK = new List<MataKuliah>();
-            for (int i = 0; i < fp.getBanyakJadwal(); i++)
+            for (int k = 0; i < fp.getBanyakJadwal(); i++)
             {
                 MataKuliah mk = new MataKuliah(jadwal[i]);
                 listMK.Add(mk);
@@ -31,27 +34,46 @@ namespace GUI.LS
 
             //Isi ListR
             listR = new List<Ruangan>();
-            for (int i = 0; i < fp.getBanyakRuangan(); i++)
+            for (int k = 0; i < fp.getBanyakRuangan(); i++)
             {
                 Ruangan r = new Ruangan(rrr[i]);
                 listR.Add(r);
             }
 
+            variasiRuangan = new VariasiRuangan[fp.getBanyakRuangan()];
+            while (i < fp.getBanyakRuangan())
+            {
+                variasiRuangan[j] = new VariasiRuangan();
+                variasiRuangan[j].nama = listR[i].getNamaRuangan();
+                variasiRuangan[j].variasi = 1;
+                i++;
+                while (variasiRuangan[j].nama.Equals(listR[i].getNamaRuangan(), StringComparison.Ordinal))
+                {
+                    variasiRuangan[j].variasi++;
+                    i++;
+                    if (i >= fp.getBanyakRuangan())
+                    {
+                        break;
+                    }
+                }
+                j++;
+            }
+
             //Cek Algo yang dipakai
             if (AlgoChoosed == 1)
             { 
-            RandomRestart rr = new RandomRestart();
-            rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+                RandomRestart rr = new RandomRestart();
+                rr.randomRestart(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan(), variasiRuangan);
             }
             if (AlgoChoosed == 2)
             {
                 SimulatedAnnealing sa = new SimulatedAnnealing();
-                sa.simulatedAnnealing(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+                sa.simulatedAnnealing(ref listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan(), variasiRuangan);
             }
             if (AlgoChoosed == 3)
             {
                 GeneticAlgorithm ga = new GeneticAlgorithm();
-                listMK = ga.geneticAlgorithm(500,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan());
+                listMK = ga.geneticAlgorithm(500,listMK, listR, fp.getBanyakJadwal(), fp.getBanyakRuangan(), variasiRuangan);
             }
 
             //Menjalankan perhitungan konflik dan efektifitas

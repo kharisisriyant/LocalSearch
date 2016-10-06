@@ -8,11 +8,11 @@ namespace GUI.LS
 {
     class Initializer
     {
-        public void Initialize(List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan)
+        public void Initialize(List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan, VariasiRuangan[] varR)
         {
             //Random and Variables
             Random rng = new Random(Guid.NewGuid().GetHashCode());
-            int minTime = 0;
+            int minTime = 100;
             int maxTime = 0;
             IEnumerable<int> possibleDay;
 
@@ -20,6 +20,8 @@ namespace GUI.LS
             for (int i = 0; i < banyakJadwal; i++)
             {
                 int temp = 0;
+                int varTemp = 0;
+                int randomNumber;
                 bool found = false;
                 //Console.WriteLine("Jadwal " + listMK[i].getNamaMatKul() + " (" + (i + 1) + ")");
 
@@ -39,20 +41,59 @@ namespace GUI.LS
                         }
                     }
 
-                    //Calculate Possible Day
-                    possibleDay = listMK[i].getHariDom().Intersect(listR[temp].getHariAvailable());
-
-                    //Calculate Possible Time
-                    if (listR[temp].getjamMulai() > listMK[i].getJamDomAwal())
+                    //Pertimbangkan variasi kemungkinan
+                    found = false;
+                    while (!found)
                     {
-                        minTime = listR[temp].getjamMulai();
+                        if (varR[varTemp].nama.Equals(listR[temp].getNamaRuangan(), StringComparison.Ordinal))
+                        {
+                            found = true;
+                        }
+                        else
+                        {
+                            varTemp++;
+                        }
+                    }
+
+                    //Generate offset index dari akses ruangan karena adanya variasi
+                    randomNumber = rng.Next(0, varR[varTemp].variasi);
+
+                    //Calculate Possible Day
+                    possibleDay = listMK[i].getHariDom().Intersect(listR[temp+randomNumber].getHariAvailable());
+
+                    //Ulangi kalkulasi bila tidak memungkinkan
+                    while ((possibleDay.Count() < 1) && ((maxTime - minTime) < listMK[i].getSks()))
+                    {
+                        randomNumber = rng.Next(0, varR[varTemp].variasi);
+                        possibleDay = listMK[i].getHariDom().Intersect(listR[temp + randomNumber].getHariAvailable());
+                        //Calculate Possible Time
+                        if (listR[temp + randomNumber].getjamMulai() > listMK[i].getJamDomAwal())
+                        {
+                            minTime = listR[temp + randomNumber].getjamMulai();
+                        }
+                        else {
+                            minTime = listMK[i].getJamDomAwal();
+                        }
+                        if (listR[temp + randomNumber].getjamAkhir() < listMK[i].getJamDomAkhir())
+                        {
+                            maxTime = listR[temp + randomNumber].getjamAkhir();
+                        }
+                        else {
+                            maxTime = listMK[i].getJamDomAkhir();
+                        }
+                    }
+
+                    //Calculate Possible Time (untuk tidak terjadi reassign)
+                    if (listR[temp + randomNumber].getjamMulai() > listMK[i].getJamDomAwal())
+                    {
+                        minTime = listR[temp + randomNumber].getjamMulai();
                     }
                     else {
                         minTime = listMK[i].getJamDomAwal();
                     }
-                    if (listR[temp].getjamAkhir() < listMK[i].getJamDomAkhir())
+                    if (listR[temp + randomNumber].getjamAkhir() < listMK[i].getJamDomAkhir())
                     {
-                        maxTime = listR[temp].getjamAkhir();
+                        maxTime = listR[temp + randomNumber].getjamAkhir();
                     }
                     else {
                         maxTime = listMK[i].getJamDomAkhir();

@@ -28,7 +28,7 @@ namespace GUI.LS
             return ltemp;
         }
 
-        public List<MataKuliah> geneticAlgorithm(int stepCount, List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan)
+        public List<MataKuliah> geneticAlgorithm(int stepCount, List<MataKuliah> listMK, List<Ruangan> listR, int banyakJadwal, int banyakRuangan, VariasiRuangan[] varR)
         {
             List<List<MataKuliah>> sample = new List<List<MataKuliah>>();
             List<List<MataKuliah>> temp = new List<List<MataKuliah>>();
@@ -54,7 +54,7 @@ namespace GUI.LS
             //Initial generation
             for (int i = 0; i < size; i++)
             {
-                init.Initialize(listMK, listR, banyakJadwal, banyakRuangan);
+                init.Initialize(listMK, listR, banyakJadwal, banyakRuangan, varR);
                 sample.Add(deepClone(listMK, banyakJadwal));
             }
 

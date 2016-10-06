@@ -20,21 +20,21 @@ namespace GUI.LS
             }
             return temp;
         }
-        public void randomRestart(ref List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan)
+        public void randomRestart(ref List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan, VariasiRuangan[] varR)
         {
             int step = 0;
             int idxMax = 0;
             int konfliklama = 0;
             Checker ch = new Checker();
             Initializer init = new Initializer();
-            init.Initialize(LMK, LR, banyakjadwal, banyakruangan);
+            init.Initialize(LMK, LR, banyakjadwal, banyakruangan, varR);
             ch.hitungKonflik(LMK);
             //history best konflik yang ada
             List<MataKuliah> HLMK = cloneListMK(LMK); // history awal saat inisialisasi awal 
             Checker ch2 = new Checker();
             while (step < thresholdMax && ch.getJumlahKonflik() > 0)
             {
-                init.Initialize(LMK, LR, banyakjadwal, banyakruangan);
+                init.Initialize(LMK, LR, banyakjadwal, banyakruangan, varR);
                 ch.hitungKonflik(LMK);
                 ++step;
                 while (ch.getJumlahKonflik() > 0 && (step % thresholdRestart > 0))

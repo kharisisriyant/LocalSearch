@@ -16,12 +16,12 @@ namespace GUI.LS
 
         private double initTemperature = 100.0; //temperatur awal
 
-        public void simulatedAnnealing(ref List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan)
+        public void simulatedAnnealing(ref List<MataKuliah> LMK, List<Ruangan> LR, int banyakjadwal, int banyakruangan, VariasiRuangan[] varR)
         {
             
             Checker ch = new Checker();
             Initializer init = new Initializer();
-            init.Initialize(LMK, LR, banyakjadwal, banyakruangan); //inisialisasi
+            init.Initialize(LMK, LR, banyakjadwal, banyakruangan, varR); //inisialisasi
             ch.hitungKonflik(LMK);
             List<MataKuliah> tempLMK = new List<MataKuliah>();
             double temperatur = initTemperature;

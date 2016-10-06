@@ -62,6 +62,7 @@
     <Compile Include="LS\Ruangan.cs" />
     <Compile Include="LS\SimulatedAnnealing.cs" />
     <Compile Include="LS\Solver.cs" />
+    <Compile Include="LS\VariasiRuangan.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="progressDialog.cs">
       <SubType>Form</SubType>
