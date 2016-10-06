@@ -32,8 +32,19 @@ namespace GUI
             jmlEfektif.Text = jmlEfk;
             foreach (Ruangan item in listR)
             {
+                bool found = false;
                 string namaRuang = item.getNamaRuangan();
-                optionRuang.Items.Add(namaRuang);
+                foreach (string name in optionRuang.Items)
+                {
+                    if (name.Equals(namaRuang, StringComparison.Ordinal))
+                    {
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    optionRuang.Items.Add(namaRuang);
+                }
             }
         }
 

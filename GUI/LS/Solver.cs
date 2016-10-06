@@ -47,6 +47,10 @@ namespace GUI.LS
                 variasiRuangan[j].nama = listR[i].getNamaRuangan();
                 variasiRuangan[j].variasi = 1;
                 i++;
+                if (i >= fp.getBanyakRuangan())
+                {
+                    break;
+                }
                 while (variasiRuangan[j].nama.Equals(listR[i].getNamaRuangan(), StringComparison.Ordinal))
                 {
                     variasiRuangan[j].variasi++;
@@ -55,6 +59,10 @@ namespace GUI.LS
                     {
                         break;
                     }
+                }
+                if (i >= fp.getBanyakRuangan())
+                {
+                    break;
                 }
                 j++;
             }

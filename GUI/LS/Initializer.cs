@@ -150,6 +150,7 @@ namespace GUI.LS
 
                         //Pertimbangkan variasi kemungkinan
                         found = false;
+                        varTemp = 0;
                         while (!found)
                         {
                             if (varR[varTemp].nama.Equals(listR[temp].getNamaRuangan(), StringComparison.Ordinal))
@@ -183,9 +184,9 @@ namespace GUI.LS
                     }
                 }
                 temp = rng.Next(0, possibleDay.ToArray().Length);
-                listMK[i].setHariSol(possibleDay.ElementAt(temp + randomNumber));
+                listMK[i].setHariSol(possibleDay.ElementAt(temp));
                 temp = rng.Next(minTime, (maxTime + 1 - listMK[i].getSks()));
-                listMK[i].setJamSol(temp + randomNumber);
+                listMK[i].setJamSol(temp);
                 //Console.WriteLine("Jam Mulai " + listMK[i].getJamSol());
                 //Console.WriteLine("Jam Akhir " + (listMK[i].getSks() + listMK[i].getJamSol()));
                 //Console.WriteLine("Hari " + listMK[i].getHariSol());
